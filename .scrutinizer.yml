@@ -1,0 +1,22 @@
+filter:
+  excluded_paths:
+    - 'tests/'
+    - 'vendor/'
+
+build:
+  nodes:
+    php73:
+      environment:
+        php:
+          version: "7.3"
+          # pecl_extensions: # add if there is an extension not present on scrutinizer
+          #  - "zip"
+      project_setup: # see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
+        override: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            coverage:
+              file: coverage.clover
+              format: clover
