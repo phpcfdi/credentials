@@ -1,7 +1,7 @@
 {
     "name": "phpcfdi/credentials",
-    "description": "Library to use eFirma (fiel) and stamp certificates (sellos) from SAT",
-    "keywords": [],
+    "description": "Library to use eFirma (fiel) and CSD (sellos) from SAT",
+    "keywords": ["efirma", "fiel", "sat", "cfdi", "sello", "certificado"],
     "homepage": "https://github.com/phpcfdi/credentials",
     "license": "MIT",
     "authors": [
@@ -12,9 +12,12 @@
         }
     ],
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-openssl": "*",
+        "eclipxe/enum": "^0.2.0"
     },
     "require-dev": {
+        "ext-json": "*",
         "phpunit/phpunit": "^8.0",
         "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",
@@ -44,7 +47,7 @@
         "dev:test": [
             "vendor/bin/phplint",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --verbose --level max src/ tests/"
+            "vendor/bin/phpstan analyse --no-progress --verbose --level max src/ tests/"
         ],
         "dev:coverage": [
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"

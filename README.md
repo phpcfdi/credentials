@@ -8,16 +8,14 @@
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
-> Library to use eFirma (fiel) and stamp certificates (sellos) from SAT
-
-*write here the reason to exists of this library*
+> Library to use eFirma (fiel) and CSD (sellos) from SAT
 
 **check [docs/FIRST_STEPS.md][] file and remove this line**
 
 
-## Installation
+## Instalación
 
-Use [composer](https://getcomposer.org/), so please run
+Utiliza [composer](https://getcomposer.org/)
 ```shell
 composer require phpcfdi/credentials
 ```
@@ -31,23 +29,25 @@ composer require phpcfdi/credentials
 ```
 
 
-## PHP Support
+## Compatilibilidad
 
-This library is compatible with PHP versions 7.0 and above.
-Please, try to use the full potential of the language.
+Esta librería se mantendrá compatible con al menos la versión con
+[soporte activo de PHP](http://php.net/supported-versions.php) más reciente.
+
+También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/) por lo que puedes usar esta librería
+sin temor a romper tu aplicación.
 
 
-## Contributing
+## Contribuciones
 
-Contributions are welcome! Please read [CONTRIBUTING][] for details
-and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
+Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
+y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
 
 ## Copyright and License
 
-The phpcfdi/credentials library is copyright © [phpCfdi](https://www.phpcfdi.com/)
+The phpcfdi/credentials library is copyright © [Carlos C Soto](http://eclipxe.com.mx/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
-
 
 [contributing]: https://github.com/phpcfdi/credentials/blob/master/CONTRIBUTING.md
 [changelog]: https://github.com/phpcfdi/credentials/blob/master/docs/CHANGELOG.md
@@ -61,10 +61,10 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/credentials-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/github/release/phpcfdi/credentials.svg?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master.svg?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/credentials.svg?style=flat-square
+[badge-source]: http://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
+[badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?style=flat-square
+[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
+[badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master?style=flat-square
+[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master/src?style=flat-square
+[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/credentials?style=flat-square
