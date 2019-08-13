@@ -219,4 +219,10 @@ class Certificate
         }
         throw new UnexpectedValueException('Certificate does not contain a serial number');
     }
+
+    public function issuerAsRfc4514(): string
+    {
+        $issuer = $this->issuer();
+        return (new Internal\Rfc4514())->escapeArray($issuer);
+    }
 }

@@ -82,6 +82,25 @@ class CertificateTest extends TestCase
         $this->assertSame('SAT970701NN3', $certificate->issuerData('x500UniqueIdentifier'));
     }
 
+    public function testIssuerAsRfc4514(): void
+    {
+        $certificate = $this->createCertificate();
+        $expected = [
+            'CN=A.C. 2 de pruebas(4096)',
+            'O=Servicio de Administración Tributaria',
+            'OU=Administración de Seguridad de la Información',
+            'emailAddress=asisnet@pruebas.sat.gob.mx',
+            'street=Av. Hidalgo 77\2c Col. Guerrero', // see how it was encoded
+            'postalCode=06300',
+            'C=MX',
+            'ST=Distrito Federal',
+            'L=Coyoacán',
+            'x500UniqueIdentifier=SAT970701NN3',
+            'unstructuredName=Responsable: ACDMA',
+        ];
+        $this->assertEquals($expected, explode(',', $certificate->issuerAsRfc4514()));
+    }
+
     public function testPublicKey(): void
     {
         $certificate = $this->createCertificate();
