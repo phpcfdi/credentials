@@ -8,9 +8,8 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 - Feature version = adds new feature(s) in a backwards-compatible manner
 - Fix version = includes backwards-compatible bug fixes
 
-**Version `0.x.x` doesn't have to apply any of the SemVer rules**
+## Version 1.0.0 2019-08-13
 
-
-## Version 0.1.0 2019-03-20
-
-- Initial working release for testing with friends
+- Initial working release
+- Projects phpcfdi/xml-cancelacion and phpcfdi/sat-ws-descarga-masiva are using this project as dependence,
+  the implementation on both projects give clues to improve before first stable release.
