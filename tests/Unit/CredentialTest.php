@@ -37,6 +37,26 @@ class CredentialTest extends TestCase
             $this->filePath('FIEL_AAA010101AAA/private_key_protected.key.pem'),
             trim($this->fileContents('FIEL_AAA010101AAA/password.txt'))
         );
-        $this->assertTrue($fiel->certificate()->satType()->isFiel());
+        $this->assertTrue($fiel->isFiel());
+    }
+
+    public function testShortCuts(): void
+    {
+        $credential = Credential::openFiles(
+            $this->filePath('CSD01_AAA010101AAA/certificate.cer'),
+            $this->filePath('CSD01_AAA010101AAA/private_key_protected.key.pem'),
+            trim($this->fileContents('CSD01_AAA010101AAA/password.txt'))
+        );
+        $this->assertTrue($credential->isCsd());
+        $this->assertFalse($credential->isFiel());
+
+        $this->assertSame($credential->certificate()->rfc(), $credential->rfc());
+        $this->assertSame($credential->certificate()->legalName(), $credential->legalName());
+
+        $textToSign = 'The quick brown fox jumps over the lazy dog';
+        $signature = $credential->sign($textToSign);
+
+        $this->assertNotEmpty($signature);
+        $this->assertTrue($credential->verify($textToSign, $signature));
     }
 }

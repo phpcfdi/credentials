@@ -39,4 +39,34 @@ class Credential
     {
         return $this->privateKey;
     }
+
+    public function rfc(): string
+    {
+        return $this->certificate->rfc();
+    }
+
+    public function legalName(): string
+    {
+        return $this->certificate->legalName();
+    }
+
+    public function isFiel(): bool
+    {
+        return $this->certificate()->satType()->isFiel();
+    }
+
+    public function isCsd(): bool
+    {
+        return $this->certificate()->satType()->isCsd();
+    }
+
+    public function sign(string $data, int $algorithm = OPENSSL_ALGO_SHA256): string
+    {
+        return $this->privateKey()->sign($data, $algorithm);
+    }
+
+    public function verify(string $data, string $signature, int $algorithm = OPENSSL_ALGO_SHA256): bool
+    {
+        return $this->certificate()->publicKey()->verify($data, $signature, $algorithm);
+    }
 }
