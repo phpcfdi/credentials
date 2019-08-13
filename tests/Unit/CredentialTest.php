@@ -40,6 +40,16 @@ class CredentialTest extends TestCase
         $this->assertTrue($fiel->isFiel());
     }
 
+    public function testCreateCredentialWithContents(): void
+    {
+        $fiel = Credential::create(
+            $this->fileContents('FIEL_AAA010101AAA/certificate.cer'),
+            $this->fileContents('FIEL_AAA010101AAA/private_key_protected.key.pem'),
+            trim($this->fileContents('FIEL_AAA010101AAA/password.txt'))
+        );
+        $this->assertTrue($fiel->isFiel());
+    }
+
     public function testShortCuts(): void
     {
         $credential = Credential::openFiles(

@@ -23,6 +23,13 @@ class Credential
         $this->privateKey = $privateKey;
     }
 
+    public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
+    {
+        $certificate = new Certificate($certificateContents);
+        $privateKey = new PrivateKey($privateKeyContents, $passPhrase);
+        return new self($certificate, $privateKey);
+    }
+
     public static function openFiles(string $certificateFile, string $privateKeyFile, string $passPhrase): self
     {
         $certificate = Certificate::openFile($certificateFile);
