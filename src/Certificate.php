@@ -68,6 +68,11 @@ class Certificate
         return $this->pem;
     }
 
+    public function pemAsOneLine(): string
+    {
+        return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())));
+    }
+
     public function parsed(): array
     {
         return $this->dataArray;

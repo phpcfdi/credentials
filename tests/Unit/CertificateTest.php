@@ -25,6 +25,20 @@ class CertificateTest extends TestCase
         return new Certificate($this->fileContents('CSD01_AAA010101AAA/certificate.cer'));
     }
 
+    public function testPemContents(): void
+    {
+        $certificate = $this->createCertificateSello();
+        $expected = trim($this->fileContents('CSD01_AAA010101AAA/certificate.cer.pem'));
+        $this->assertSame($expected, trim($certificate->pem()));
+    }
+
+    public function testPemContentsAsOneLine(): void
+    {
+        $certificate = $this->createCertificateSello();
+        $expected = base64_encode($this->fileContents('CSD01_AAA010101AAA/certificate.cer'));
+        $this->assertSame($expected, trim($certificate->pemAsOneLine()));
+    }
+
     public function testSerialNumber(): void
     {
         $certificate = $this->createCertificate();
