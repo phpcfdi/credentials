@@ -17,6 +17,11 @@ class Key
         $this->dataArray = $dataArray;
     }
 
+    public function parsed(): array
+    {
+        return $this->dataArray;
+    }
+
     public function publicKeyContents(): string
     {
         return $this->extractString('key');

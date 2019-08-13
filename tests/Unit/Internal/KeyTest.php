@@ -21,6 +21,7 @@ class KeyTest extends TestCase
             ],
         ];
         $key = new Key($data);
+        $this->assertSame($data, $key->parsed());
         $this->assertSame(512, $key->numberOfBits());
         $this->assertSame('x-key', $key->publicKeyContents());
         $this->assertTrue($key->type()->isRSA());
