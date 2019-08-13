@@ -92,7 +92,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [license]: https://github.com/phpcfdi/credentials/blob/master/LICENSE
 [build]: https://travis-ci.org/phpcfdi/credentials?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/credentials/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
 
 [badge-source]: http://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
@@ -100,5 +100,5 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master/src?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/credentials?style=flat-square
