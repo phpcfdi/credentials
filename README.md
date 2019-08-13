@@ -10,22 +10,56 @@
 
 > Library to use eFirma (fiel) and CSD (sellos) from SAT
 
-**check [docs/FIRST_STEPS.md][] file and remove this line**
+:us: The documentation of this project is in spanish as this is the natural language for intented audience.
+
+:mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
+
+Esta librería ha sido creada para poder trabajar con los archivos CSD y FIEL del SAT. De esta forma,
+se simplifica el proceso de firmar, verificar firma y obtener datos particulares del archivo de certificado
+así como de la llave pública.
+
+* El CSD (Certificado de Sello Digital) es utilizado para firmar Comprobantes Fiscales Digitales.
+
+* La FIEL (o eFirma) es utilizada para firmar electrónicamente documentos (generalmente usando XML-SEC) y
+está reconocida por el gobierno mexicano como una manera de firma legal de una persona física o moral.
 
 
 ## Instalación
 
-Utiliza [composer](https://getcomposer.org/)
+Usa [composer](https://getcomposer.org/)
+
 ```shell
 composer require phpcfdi/credentials
 ```
 
 
-## Basic usage
+## Ejemplo básico de uso
 
 ```php
-<?php
-// write here an quick example
+<?php declare(strict_types=1);
+
+$cerFile = 'fiel/certificado.cer'; // PEM o DER
+$pemKeyFile = 'fiel/privatekey.pem'; // en formato PEM
+$passPhrase = '12345678a'; // contraseña para abrir la llave privada
+
+$fiel = PhpCfdi\Credentials\Credential::openFiles($cerFile, $pemKeyFile, $passPhrase);
+
+$sourceString = 'texto a firmar';
+// alias de privateKey/sign/verify
+$signature = $fiel->sign($sourceString);
+echo base64_encode($signature), PHP_EOL;
+
+// alias de certificado/publicKey/verify
+$verify = $fiel->verify($sourceString, $signature);
+var_dump($verify); // bool(true)
+
+// objeto certificado
+$certificado = $fiel->certificate();
+echo $certificado->rfc(), PHP_EOL; // el RFC del certificado
+echo $certificado->legalName(), PHP_EOL; // el nombre del propietario del certificado
+echo $certificado->branchName(), PHP_EOL; // el nombre de la sucursal (en CSD, en FIEL está vacía)
+echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del certificado
+
 ```
 
 
@@ -63,7 +97,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 
 [badge-source]: http://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
+[badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master/src?style=flat-square
