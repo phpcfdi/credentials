@@ -5,14 +5,7 @@ filter:
 
 build:
   nodes:
-    php73:
-      environment:
-        php:
-          version: "7.3"
-          # pecl_extensions: # add if there is an extension not present on scrutinizer
-          #  - "zip"
-      project_setup: # see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
-        override: true
+    php:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
