@@ -69,8 +69,8 @@ class PrivateKey extends Key
 
     public function sign(string $data, int $algorithm = OPENSSL_ALGO_SHA256): string
     {
-        return (string) $this->callOnPrivateKey(
-            function ($privateKey) use ($data, $algorithm) {
+        return $this->callOnPrivateKey(
+            function ($privateKey) use ($data, $algorithm): string {
                 if (false === $this->openSslSign($data, $signature, $privateKey, $algorithm)) {
                     throw new RuntimeException('Cannot sign data: ' . openssl_error_string());
                 }
