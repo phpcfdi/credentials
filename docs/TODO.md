@@ -1,10 +1,4 @@
 # phpcfdi/credentials To Do List
 
-- Find out how to differentiate betwen a CSD and a FIEL
-    - By existence of subject.OU ?
-    - By existence of subject.email ?
-    - By extensions.keyUsage ?
-    - By extensions.extendedKeyUsage ?
-    - By purposes[2] is [CSD/FIEL, false, sslserver] ? 
-
-
+- [X] Find out how to differentiate betwen a CSD and a FIEL
+  R: Is identified by OU (Organization Unit / Sucursal), if empty is FIEL, else is CSD. 
