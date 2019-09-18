@@ -80,7 +80,7 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
 ## Copyright and License
 
-The phpcfdi/credentials library is copyright © [Carlos C Soto](http://eclipxe.com.mx/)
+The phpcfdi/finkok library is copyright © [PhpCfdi](https://github.com/phpcfdi)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/phpcfdi/credentials/blob/master/CONTRIBUTING.md

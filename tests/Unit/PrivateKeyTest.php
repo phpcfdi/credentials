@@ -19,6 +19,17 @@ class PrivateKeyTest extends TestCase
         return PrivateKey::openFile($filename, $password);
     }
 
+    public function testPemAndPassPhraseProperties(): void
+    {
+        $passPhrase = trim($this->fileContents('FIEL_AAA010101AAA/password.txt'));
+        $fileContents = $this->fileContents('FIEL_AAA010101AAA/private_key_protected.key.pem');
+        $privateKey = new PrivateKey($fileContents, $passPhrase);
+        $this->assertStringContainsString($privateKey->pem(), $fileContents);
+        $this->assertStringStartsWith('-----BEGIN RSA PRIVATE KEY-----', $privateKey->pem());
+        $this->assertStringEndsWith('-----END RSA PRIVATE KEY-----', $privateKey->pem());
+        $this->assertSame($passPhrase, $privateKey->passPhrase());
+    }
+
     public function testPublicKeyIsTheSameAsInCertificate(): void
     {
         $cerfile = $this->filePath('FIEL_AAA010101AAA/certificate.cer');

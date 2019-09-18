@@ -14,8 +14,8 @@ class PrivateKey extends Key
 {
     use LocalFileOpenTrait;
 
-    /** @var string PEM contents of private key*/
-    private $key;
+    /** @var string PEM contents of private key */
+    private $pem;
 
     /** @var string */
     private $passPhrase;
@@ -33,7 +33,7 @@ class PrivateKey extends Key
         if ('' === $source) {
             throw new UnexpectedValueException('Private key is not PEM');
         }
-        $this->key = $source;
+        $this->pem = $source;
         $this->passPhrase = $passPhrase;
         $dataArray = $this->callOnPrivateKey(
             function ($privateKey): array {
@@ -49,6 +49,16 @@ class PrivateKey extends Key
         return new self(static::localFileOpen($filename), $passPhrase);
     }
 
+    public function pem(): string
+    {
+        return $this->pem;
+    }
+
+    public function passPhrase(): string
+    {
+        return $this->passPhrase;
+    }
+
     public function publicKey(): PublicKey
     {
         if (null === $this->publicKey) {
@@ -59,8 +69,8 @@ class PrivateKey extends Key
 
     public function sign(string $data, int $algorithm = OPENSSL_ALGO_SHA256): string
     {
-        return (string) $this->callOnPrivateKey(
-            function ($privateKey) use ($data, $algorithm) {
+        return $this->callOnPrivateKey(
+            function ($privateKey) use ($data, $algorithm): string {
                 if (false === $this->openSslSign($data, $signature, $privateKey, $algorithm)) {
                     throw new RuntimeException('Cannot sign data: ' . openssl_error_string());
                 }
@@ -107,7 +117,7 @@ class PrivateKey extends Key
      */
     public function callOnPrivateKey(Closure $function)
     {
-        $privateKey = openssl_get_privatekey($this->key, $this->passPhrase);
+        $privateKey = openssl_get_privatekey($this->pem(), $this->passPhrase());
         if (! is_resource($privateKey)) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }

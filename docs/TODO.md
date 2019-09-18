@@ -1,10 +1,8 @@
-# phpcfdi/credentials To Do List
+# phpcfdi/credentials Tareas pendientes
 
-- Find out how to differentiate betwen a CSD and a FIEL
-    - By existence of subject.OU ?
-    - By existence of subject.email ?
-    - By extensions.keyUsage ?
-    - By extensions.extendedKeyUsage ?
-    - By purposes[2] is [CSD/FIEL, false, sslserver] ? 
+- [X] Encontrar como diferenciar entre un archivo CSD y un archivo FIEL
+  R: Se identifica por el campo OU (Organization Unit / Sucursal) del certificado, si está vacío es FIEL,
+  si tiene contenido es CSD. 
 
-
+- [ ] Verificar si un certificado fue realmente emitido por el SAT
+  Ver [VerificacionCertificadosSAT](VerificacionCertificadosSAT.md)

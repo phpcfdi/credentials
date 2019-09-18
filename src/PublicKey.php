@@ -43,7 +43,7 @@ class PublicKey extends Key
      */
     public function verify(string $data, string $signature, int $algorithm = OPENSSL_ALGO_SHA256): bool
     {
-        return (bool) $this->callOnPublicKey(
+        return $this->callOnPublicKey(
             function ($publicKey) use ($data, $signature, $algorithm): bool {
                 $verify = $this->openSslVerify($data, $signature, $publicKey, $algorithm);
                 if (-1 === $verify) {

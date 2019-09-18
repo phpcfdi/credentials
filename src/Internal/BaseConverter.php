@@ -52,7 +52,7 @@ class BaseConverter
 
         $originalSequence = $this->sequence()->value();
         if ('' === $input) {
-            $input = $originalSequence{0}; // use zero as input
+            $input = $originalSequence[0]; // use zero as input
         }
         $chars = substr($originalSequence, 0, $frombase);
         if (! boolval(preg_match("/^[$chars]+$/", $input))) {
@@ -62,7 +62,7 @@ class BaseConverter
         $length = strlen($input);
         $values = [];
         for ($i = 0; $i < $length; $i++) {
-            $values[] = intval(stripos($originalSequence, $input{$i}));
+            $values[] = intval(stripos($originalSequence, $input[$i]));
         }
 
         $result = '';
@@ -81,7 +81,7 @@ class BaseConverter
                 }
             }
             $length = $newlen;
-            $result = $originalSequence{$divide} . $result;
+            $result = $originalSequence[$divide] . $result;
         } while ($newlen > 0);
 
         return $result;
