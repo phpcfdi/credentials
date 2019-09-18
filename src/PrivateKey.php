@@ -14,7 +14,7 @@ class PrivateKey extends Key
 {
     use LocalFileOpenTrait;
 
-    /** @var string PEM contents of private key*/
+    /** @var string PEM contents of private key */
     private $key;
 
     /** @var string */
@@ -47,6 +47,16 @@ class PrivateKey extends Key
     public static function openFile(string $filename, string $passPhrase): self
     {
         return new self(static::localFileOpen($filename), $passPhrase);
+    }
+
+    public function pem(): string
+    {
+        return $this->key;
+    }
+
+    public function passPhrase(): string
+    {
+        return $this->passPhrase;
     }
 
     public function publicKey(): PublicKey
