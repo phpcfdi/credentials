@@ -15,7 +15,7 @@ class PrivateKey extends Key
     use LocalFileOpenTrait;
 
     /** @var string PEM contents of private key */
-    private $key;
+    private $pem;
 
     /** @var string */
     private $passPhrase;
@@ -33,7 +33,7 @@ class PrivateKey extends Key
         if ('' === $source) {
             throw new UnexpectedValueException('Private key is not PEM');
         }
-        $this->key = $source;
+        $this->pem = $source;
         $this->passPhrase = $passPhrase;
         $dataArray = $this->callOnPrivateKey(
             function ($privateKey): array {
@@ -51,7 +51,7 @@ class PrivateKey extends Key
 
     public function pem(): string
     {
-        return $this->key;
+        return $this->pem;
     }
 
     public function passPhrase(): string
