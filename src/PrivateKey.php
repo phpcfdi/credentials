@@ -117,7 +117,7 @@ class PrivateKey extends Key
      */
     public function callOnPrivateKey(Closure $function)
     {
-        $privateKey = openssl_get_privatekey($this->key, $this->passPhrase);
+        $privateKey = openssl_get_privatekey($this->pem(), $this->passPhrase());
         if (! is_resource($privateKey)) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
