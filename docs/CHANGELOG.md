@@ -9,6 +9,7 @@ Nos apegamos a [SEMVER](SEMVER.md), revisa la información para entender mejor e
 ## Version 1.0.1 2019-09-18
 
 - Agregar métodos a `PrivateKey` para poder exponer la llave privada en formato PEM y la frase de paso.
+- Traducir documentación en `docs/` a español
 
 ## Version 1.0.0 2019-08-13
 

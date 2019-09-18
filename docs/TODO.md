@@ -1,7 +1,8 @@
-# phpcfdi/credentials To Do List
+# phpcfdi/credentials Tareas pendientes
 
-- [X] Find out how to differentiate betwen a CSD and a FIEL
-  R: Is identified by OU (Organization Unit / Sucursal), if empty is FIEL, else is CSD. 
+- [X] Encontrar como diferenciar entre un archivo CSD y un archivo FIEL
+  R: Se identifica por el campo OU (Organization Unit / Sucursal) del certificado, si está vacío es FIEL,
+  si tiene contenido es CSD. 
 
-- [ ] Verify if a certificate was really created by SAT.
-  See [VerificacionCertificadosSAT](VerificacionCertificadosSAT.md)
+- [ ] Verificar si un certificado fue realmente emitido por el SAT
+  Ver [VerificacionCertificadosSAT](VerificacionCertificadosSAT.md)
