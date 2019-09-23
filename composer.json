@@ -11,6 +11,10 @@
             "homepage": "https://www.phpcfdi.com/"
         }
     ],
+    "support": {
+        "source": "https://github.com/phpcfdi/credentials",
+        "issues": "https://github.com/phpcfdi/credentials/issues"
+    },
     "require": {
         "php": ">=7.2",
         "ext-openssl": "*",
