@@ -61,4 +61,12 @@ class PrivateKeyConstructTest extends TestCase
         $this->expectExceptionMessage('Private key is not PEM');
         new PrivateKey('INVALID+CONTENT', '');
     }
+    
+    public function testConstructWithPkcs8Content(): void
+    {
+        $filename = $this->fileContents('CSD01_AAA010101AAA/private_key.key');
+        $password = trim($this->fileContents('CSD01_AAA010101AAA/password.txt'));
+        $privateKey = new PrivateKey($filename, $password);
+        $this->assertGreaterThan(0, $privateKey->numberOfBits());
+    }
 }
