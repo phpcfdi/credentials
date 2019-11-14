@@ -29,17 +29,10 @@ class PrivateKey extends Key
             throw new UnexpectedValueException('Private key is empty');
         }
         $pemExtractor = new PemExtractor($source);
-        $private = $pemExtractor->extractPrivateKey();
-        if ('' === $private) {
-            if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $source))) {
-                // if contents are base64 encoded, then decode it
-                $source = base64_decode($source, true) ?: '';
-            }
-            $pem = '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
-                    . chunk_split(base64_encode($source), 64, PHP_EOL)
-                    . '-----END ENCRYPTED PRIVATE KEY-----';
-        } else {
-            $pem = $private;
+        $pem = $pemExtractor->extractPrivateKey();
+        if ('' === $pem) {
+            // it could be a DER content, convert to PEM
+            $pem = static::convertDerToPem($source);
         }
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
@@ -50,6 +43,13 @@ class PrivateKey extends Key
             }
         );
         parent::__construct($dataArray);
+    }
+
+    public static function convertDerToPem(string $contents): string
+    {
+        return '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
+            . chunk_split(base64_encode($contents), 64, PHP_EOL)
+            . '-----END ENCRYPTED PRIVATE KEY-----';
     }
 
     public static function openFile(string $filename, string $passPhrase): self

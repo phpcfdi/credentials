@@ -61,18 +61,10 @@ class PrivateKeyConstructTest extends TestCase
         $this->expectExceptionMessage('Cannot open private key');
         new PrivateKey('INVALID+CONTENT', '');
     }
-    
+
     public function testConstructWithPkcs8Content(): void
     {
         $content = $this->fileContents('CSD01_AAA010101AAA/private_key.key');
-        $password = trim($this->fileContents('CSD01_AAA010101AAA/password.txt'));
-        $privateKey = new PrivateKey($content, $password);
-        $this->assertGreaterThan(0, $privateKey->numberOfBits());
-    }
-    
-    public function testConstructWithPkcs8Base64Content(): void
-    {
-        $content = base64_encode($this->fileContents('CSD01_AAA010101AAA/private_key.key'));
         $password = trim($this->fileContents('CSD01_AAA010101AAA/password.txt'));
         $privateKey = new PrivateKey($content, $password);
         $this->assertGreaterThan(0, $privateKey->numberOfBits());
