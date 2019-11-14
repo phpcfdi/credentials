@@ -29,8 +29,8 @@ class PrivateKey extends Key
             throw new UnexpectedValueException('Private key is empty');
         }
         $pemExtractor = new PemExtractor($source);
-        $private = $pemExtractor->extractPrivateKey();
-        if ('' === $private) {
+        $pem = $pemExtractor->extractPrivateKey();
+        if ('' === $pem) {
             if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $source))) {
                 // if contents are base64 encoded, then decode it
                 $source = base64_decode($source, true) ?: '';
@@ -38,8 +38,6 @@ class PrivateKey extends Key
             $pem = '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
                     . chunk_split(base64_encode($source), 64, PHP_EOL)
                     . '-----END ENCRYPTED PRIVATE KEY-----';
-        } else {
-            $pem = $private;
         }
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
