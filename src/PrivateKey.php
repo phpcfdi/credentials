@@ -35,9 +35,8 @@ class PrivateKey extends Key
                 // if contents are base64 encoded, then decode it
                 $source = base64_decode($source, true) ?: '';
             }
-            $pem = '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
-                    . chunk_split(base64_encode($source), 64, PHP_EOL)
-                    . '-----END ENCRYPTED PRIVATE KEY-----';
+            // it could be a DER content, convert to PEM
+            $pem = static::convertDerToPem($source);
         }
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
@@ -48,6 +47,13 @@ class PrivateKey extends Key
             }
         );
         parent::__construct($dataArray);
+    }
+
+    public static function convertDerToPem(string $contents): string
+    {
+        return '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
+            . chunk_split(base64_encode($contents), 64, PHP_EOL)
+            . '-----END ENCRYPTED PRIVATE KEY-----';
     }
 
     public static function openFile(string $filename, string $passPhrase): self
