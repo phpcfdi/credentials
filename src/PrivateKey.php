@@ -31,10 +31,6 @@ class PrivateKey extends Key
         $pemExtractor = new PemExtractor($source);
         $pem = $pemExtractor->extractPrivateKey();
         if ('' === $pem) {
-            if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $source))) {
-                // if contents are base64 encoded, then decode it
-                $source = base64_decode($source, true) ?: '';
-            }
             // it could be a DER content, convert to PEM
             $pem = static::convertDerToPem($source);
         }
