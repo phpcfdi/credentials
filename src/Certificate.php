@@ -36,15 +36,8 @@ class Certificate
             throw new UnexpectedValueException('Create certificate from empty contents');
         }
         $pem = (new PemExtractor($contents))->extractCertificate();
-        if ('' === $pem) { // there is no pem certificate, convert from DER
-            /** @noinspection RegExpRedundantEscape phpstorm claims "\/" ... you are drunk, go home */
-            if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $contents))) {
-                // if contents are base64 encoded, then decode it
-                $contents = base64_decode($contents, true) ?: '';
-            }
-            $pem = '-----BEGIN CERTIFICATE-----' . PHP_EOL
-                . chunk_split(base64_encode($contents), 64, PHP_EOL)
-                . '-----END CERTIFICATE-----';
+        if ('' === $pem) { // it could be a DER content, convert to PEM
+            $pem = static::convertDerToPem($contents);
         }
 
         /** @var array|false $parsed */
@@ -56,6 +49,17 @@ class Certificate
         $this->dataArray = $parsed;
         $this->rfc = strval(strstr(($parsed['subject']['x500UniqueIdentifier'] ?? '') . ' ', ' ', true));
         $this->legalName = strval($parsed['subject']['name'] ?? '');
+    }
+
+    public static function convertDerToPem(string $contents): string
+    {
+        // effectivelly compare that all the content is base64, if it isn't then encode it
+        if ($contents !== base64_encode(base64_decode($contents, true) ?: '')) {
+            $contents = base64_encode($contents);
+        }
+        return '-----BEGIN CERTIFICATE-----' . PHP_EOL
+            . chunk_split($contents, 64, PHP_EOL)
+            . '-----END CERTIFICATE-----';
     }
 
     public static function openFile(string $filename)
