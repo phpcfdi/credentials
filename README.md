@@ -66,7 +66,7 @@ echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del cer
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
-[soporte activo de PHP](http://php.net/supported-versions.php) más reciente.
+[soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
 
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/) por lo que puedes usar esta librería
 sin temor a romper tu aplicación.
@@ -95,7 +95,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master?style=flat-square
