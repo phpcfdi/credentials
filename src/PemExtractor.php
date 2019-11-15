@@ -31,15 +31,20 @@ class PemExtractor
 
     public function extractPrivateKey(): string
     {
+        // see https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences
+        // PKCS#8 plain private key
         if ('' !== $extracted = $this->extractBase64('PRIVATE KEY')) {
             return $extracted;
         }
+        // PKCS#5 plain private key
         if ('' !== $extracted = $this->extractBase64('RSA PRIVATE KEY')) {
             return $extracted;
         }
+        // PKCS#5 encrypted private key
         if ('' !== $extracted = $this->extractRsaProtected()) {
             return $extracted;
         }
+        // PKCS#8 encrypted private key
         return $this->extractBase64('ENCRYPTED PRIVATE KEY');
     }
 

@@ -30,6 +30,11 @@ class Certificate
     /** @var PublicKey|null Parsed public key */
     private $publicKey;
 
+    /**
+     * Certificate constructor
+     *
+     * @param string $contents can be a X.509 PEM, X.509 DER or X.509 DER base64
+     */
     public function __construct(string $contents)
     {
         if ('' === $contents) {
@@ -51,6 +56,12 @@ class Certificate
         $this->legalName = strval($parsed['subject']['name'] ?? '');
     }
 
+    /**
+     * Convert X.509 DER base64 or X.509 DER to X.509 PEM
+     *
+     * @param string $contents can be a X.509 DER or X.509 DER base64
+     * @return string
+     */
     public static function convertDerToPem(string $contents): string
     {
         // effectivelly compare that all the content is base64, if it isn't then encode it
@@ -62,6 +73,13 @@ class Certificate
             . '-----END CERTIFICATE-----';
     }
 
+    /**
+     * Create a Certificate object by opening a local file
+     * The content file can be a X.509 PEM, X.509 DER or X.509 DER base64
+     *
+     * @param string $filename must be a local file (without scheme or file:// scheme)
+     * @return Certificate
+     */
     public static function openFile(string $filename)
     {
         return new self(static::localFileOpen($filename));

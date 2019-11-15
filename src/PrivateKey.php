@@ -23,6 +23,12 @@ class PrivateKey extends Key
     /** @var PublicKey|null $public key extracted from private key */
     private $publicKey;
 
+    /**
+     * PrivateKey constructor
+     *
+     * @param string $source can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     * @param string $passPhrase
+     */
     public function __construct(string $source, string $passPhrase)
     {
         if ('' === $source) {
@@ -45,6 +51,12 @@ class PrivateKey extends Key
         parent::__construct($dataArray);
     }
 
+    /**
+     * Convert PKCS#8 DER to PKCS#8 PEM
+     *
+     * @param string $contents can be a PKCS#8 DER
+     * @return string
+     */
     public static function convertDerToPem(string $contents): string
     {
         return '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
@@ -52,6 +64,14 @@ class PrivateKey extends Key
             . '-----END ENCRYPTED PRIVATE KEY-----';
     }
 
+    /**
+     * Create a PrivateKey object by opening a local file
+     * The content file can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     *
+     * @param string $filename must be a local file (without scheme or file:// scheme)
+     * @param string $passPhrase
+     * @return static
+     */
     public static function openFile(string $filename, string $passPhrase): self
     {
         return new self(static::localFileOpen($filename), $passPhrase);
