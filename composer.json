@@ -51,6 +51,7 @@
         ],
         "dev:test": [
             "vendor/bin/phplint",
+            "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
             "vendor/bin/phpstan analyse --no-progress --verbose --level max src/ tests/"
         ],
@@ -62,7 +63,7 @@
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run phplint, phpunit and phpstan",
+        "dev:test": "DEV: run phplint, dev:check-style, phpunit and phpstan",
         "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     }
 }
