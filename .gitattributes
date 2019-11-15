@@ -3,11 +3,11 @@
 
 # Do not put this files on a distribution package (by .gitignore)
 /vendor                 export-ignore
-/build                  export-ignore
 /composer.lock          export-ignore
 .phpunit.result.cache   export-ignore
 
 # Do not put this files on a distribution package
+/build/                 export-ignore
 /docs/                  export-ignore
 /tests/                 export-ignore
 /.gitattributes         export-ignore
