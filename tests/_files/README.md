@@ -9,10 +9,13 @@ Commands:
 # get certificate information:
 openssl x509 -nameopt utf8,sep_multiline,lname -inform DER -noout -dates -serial -subject -fingerprint -pubkey -in CSD01_AAA010101AAA.cer
 
-# convert private key from DER to PEM (password 12345678a):
-openssl pkcs8 -inform DER -in CSD01_AAA010101AAA.key -out CSD01_AAA010101AAA.key.pem
+# convert private key from DER to PEM (unprotected private key):
+openssl pkcs8 -inform DER -in CSD01_AAA010101AAA.key -passin pass:12345678a -out CSD01_AAA010101AAA.key.pem
 
-# protect with password the private key, not required but used for test suite:
+# convert private key from PEM to DER:
+openssl pkcs8 -topk8 -in CSD01_AAA010101AAA.key.pem -passin pass:12345678a -passout pass:12345678a -out CSD01_AAA010101AAA.key -outform DER
+
+# protect with password the private key (PKCS#5), not required but used for test suite:
 openssl rsa -in CSD01_AAA010101AAA.key.pem -des3 -out CSD01_AAA010101AAA_password.key.pem
 
 # convert public key from DER to PEM, not required but used for test suite:
