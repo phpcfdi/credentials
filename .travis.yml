@@ -7,9 +7,10 @@ matrix:
   allow_failures:
     - php: "7.4snapshot"
 
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
-sudo: false
+env:
+  global:
+    - PHP_CS_FIXER_FUTURE_MODE=1
+    - PHP_CS_FIXER_IGNORE_ENV=1
 
 cache:
   - directories:
@@ -18,10 +19,8 @@ cache:
 before_script:
   - phpenv config-rm xdebug.ini || true
   - travis_retry composer install --no-interaction --prefer-dist
-  - mkdir -p build
 
 script:
-  - vendor/bin/phplint
   - vendor/bin/php-cs-fixer fix --verbose
   - vendor/bin/phpcbf --colors -sp src/ tests/
   - vendor/bin/phpunit --testdox --verbose

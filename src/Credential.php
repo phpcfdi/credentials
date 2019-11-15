@@ -14,6 +14,13 @@ class Credential
     /** @var PrivateKey */
     private $privateKey;
 
+    /**
+     * Credential constructor
+     *
+     * @param Certificate $certificate
+     * @param PrivateKey $privateKey
+     * @throws UnexpectedValueException Certificate does not belong to private key
+     */
     public function __construct(Certificate $certificate, PrivateKey $privateKey)
     {
         if (! $privateKey->belongsTo($certificate)) {
@@ -23,6 +30,17 @@ class Credential
         $this->privateKey = $privateKey;
     }
 
+    /**
+     * Create a Credential object based on string contents
+     *
+     * The certificate content can be a X.509 PEM, X.509 DER or X.509 DER base64
+     * The private key content can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     *
+     * @param string $certificateContents
+     * @param string $privateKeyContents
+     * @param string $passPhrase
+     * @return static
+     */
     public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
     {
         $certificate = new Certificate($certificateContents);
@@ -30,6 +48,18 @@ class Credential
         return new self($certificate, $privateKey);
     }
 
+    /**
+     * Create a Credential object based on local files
+     *
+     * File paths must be local, can have no schema or file:// schema
+     * The certificate file content can be a X.509 PEM, X.509 DER or X.509 DER base64
+     * The private key file content can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     *
+     * @param string $certificateFile
+     * @param string $privateKeyFile
+     * @param string $passPhrase
+     * @return static
+     */
     public static function openFiles(string $certificateFile, string $privateKeyFile, string $passPhrase): self
     {
         $certificate = Certificate::openFile($certificateFile);

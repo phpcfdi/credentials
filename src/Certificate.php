@@ -30,21 +30,19 @@ class Certificate
     /** @var PublicKey|null Parsed public key */
     private $publicKey;
 
+    /**
+     * Certificate constructor
+     *
+     * @param string $contents can be a X.509 PEM, X.509 DER or X.509 DER base64
+     */
     public function __construct(string $contents)
     {
         if ('' === $contents) {
             throw new UnexpectedValueException('Create certificate from empty contents');
         }
         $pem = (new PemExtractor($contents))->extractCertificate();
-        if ('' === $pem) { // there is no pem certificate, convert from DER
-            /** @noinspection RegExpRedundantEscape phpstorm claims "\/" ... you are drunk, go home */
-            if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $contents))) {
-                // if contents are base64 encoded, then decode it
-                $contents = base64_decode($contents, true) ?: '';
-            }
-            $pem = '-----BEGIN CERTIFICATE-----' . PHP_EOL
-                . chunk_split(base64_encode($contents), 64, PHP_EOL)
-                . '-----END CERTIFICATE-----';
+        if ('' === $pem) { // it could be a DER content, convert to PEM
+            $pem = static::convertDerToPem($contents);
         }
 
         /** @var array|false $parsed */
@@ -58,6 +56,30 @@ class Certificate
         $this->legalName = strval($parsed['subject']['name'] ?? '');
     }
 
+    /**
+     * Convert X.509 DER base64 or X.509 DER to X.509 PEM
+     *
+     * @param string $contents can be a X.509 DER or X.509 DER base64
+     * @return string
+     */
+    public static function convertDerToPem(string $contents): string
+    {
+        // effectivelly compare that all the content is base64, if it isn't then encode it
+        if ($contents !== base64_encode(base64_decode($contents, true) ?: '')) {
+            $contents = base64_encode($contents);
+        }
+        return '-----BEGIN CERTIFICATE-----' . PHP_EOL
+            . chunk_split($contents, 64, PHP_EOL)
+            . '-----END CERTIFICATE-----';
+    }
+
+    /**
+     * Create a Certificate object by opening a local file
+     * The content file can be a X.509 PEM, X.509 DER or X.509 DER base64
+     *
+     * @param string $filename must be a local file (without scheme or file:// scheme)
+     * @return Certificate
+     */
     public static function openFile(string $filename)
     {
         return new self(static::localFileOpen($filename));
