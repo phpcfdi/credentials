@@ -27,7 +27,7 @@ class PrivateKey extends Key
      * PrivateKey constructor
      *
      * @param string $source can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
-     * @param string $passPhrase
+     * @param string $passPhrase If empty asume unencrypted/plain private key
      */
     public function __construct(string $source, string $passPhrase)
     {
@@ -38,7 +38,8 @@ class PrivateKey extends Key
         $pem = $pemExtractor->extractPrivateKey();
         if ('' === $pem) {
             // it could be a DER content, convert to PEM
-            $pem = static::convertDerToPem($source);
+            $convertSourceIsEncrypted = ('' !== $passPhrase);
+            $pem = static::convertDerToPem($source, $convertSourceIsEncrypted);
         }
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
@@ -55,13 +56,15 @@ class PrivateKey extends Key
      * Convert PKCS#8 DER to PKCS#8 PEM
      *
      * @param string $contents can be a PKCS#8 DER
+     * @param bool $isEncrypted
      * @return string
      */
-    public static function convertDerToPem(string $contents): string
+    public static function convertDerToPem(string $contents, bool $isEncrypted): string
     {
-        return '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
+        $privateKeyName = ($isEncrypted) ? 'ENCRYPTED PRIVATE KEY' : 'PRIVATE KEY';
+        return "-----BEGIN $privateKeyName-----" . PHP_EOL
             . chunk_split(base64_encode($contents), 64, PHP_EOL)
-            . '-----END ENCRYPTED PRIVATE KEY-----';
+            . "-----END $privateKeyName-----";
     }
 
     /**
