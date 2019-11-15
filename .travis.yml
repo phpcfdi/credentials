@@ -22,7 +22,6 @@ before_script:
   - mkdir -p build
 
 script:
-  - vendor/bin/phplint
   - vendor/bin/php-cs-fixer fix --verbose
   - vendor/bin/phpcbf --colors -sp src/ tests/
   - vendor/bin/phpunit --testdox --verbose
