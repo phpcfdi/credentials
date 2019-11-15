@@ -6,3 +6,5 @@
 
 - [ ] Verificar si un certificado fue realmente emitido por el SAT
   Ver [VerificacionCertificadosSAT](VerificacionCertificadosSAT.md)
+
+- [ ] Usar excepciones específicas en lugar de genéricas
