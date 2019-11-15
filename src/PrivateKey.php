@@ -155,4 +155,27 @@ class PrivateKey extends Key
             openssl_free_key($privateKey);
         }
     }
+
+    /**
+     * Export the current private key to a new private key with a different password
+     *
+     * @param string $newPassPhrase If empty the new private key will be unencrypted
+     * @return self
+     */
+    public function changePassPhrase(string $newPassPhrase): self
+    {
+        $pem = $this->callOnPrivateKey(
+            function ($privateKey) use ($newPassPhrase): string {
+                $exportConfig = [
+                    'private_key_bits' => $this->publicKey()->numberOfBits(),
+                    'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
+                ];
+                if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
+                    throw new RuntimeException('Cannot export the private KEY to change password');
+                }
+                return $exported;
+            }
+        );
+        return new self($pem, $newPassPhrase);
+    }
 }
