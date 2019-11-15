@@ -1,6 +1,6 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
-         bootstrap="./tests/bootstrap.php" colors="true" verbose="true" cacheResultFile="./build/phpunit.result.cache">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.4/phpunit.xsd"
+         bootstrap="./tests/bootstrap.php" colors="true" verbose="true" cacheResult="false">
     <testsuites>
         <testsuite name="Default">
             <directory>./tests/</directory>

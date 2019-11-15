@@ -4,7 +4,6 @@
 # Do not put this files on a distribution package (by .gitignore)
 /vendor                 export-ignore
 /composer.lock          export-ignore
-.phpunit.result.cache   export-ignore
 
 # Do not put this files on a distribution package
 /build/                 export-ignore
