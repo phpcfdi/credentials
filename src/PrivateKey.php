@@ -23,23 +23,23 @@ class PrivateKey extends Key
     /** @var PublicKey|null $public key extracted from private key */
     private $publicKey;
 
+    /**
+     * PrivateKey constructor
+     *
+     * @param string $source can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     * @param string $passPhrase If empty asume unencrypted/plain private key
+     */
     public function __construct(string $source, string $passPhrase)
     {
         if ('' === $source) {
             throw new UnexpectedValueException('Private key is empty');
         }
         $pemExtractor = new PemExtractor($source);
-        $private = $pemExtractor->extractPrivateKey();
-        if ('' === $private) {
-            if (boolval(preg_match('/^[a-zA-Z0-9+\/]+={0,2}$/', $source))) {
-                // if contents are base64 encoded, then decode it
-                $source = base64_decode($source, true) ?: '';
-            }
-            $pem = '-----BEGIN ENCRYPTED PRIVATE KEY-----' . PHP_EOL
-                    . chunk_split(base64_encode($source), 64, PHP_EOL)
-                    . '-----END ENCRYPTED PRIVATE KEY-----';
-        } else {
-            $pem = $private;
+        $pem = $pemExtractor->extractPrivateKey();
+        if ('' === $pem) {
+            // it could be a DER content, convert to PEM
+            $convertSourceIsEncrypted = ('' !== $passPhrase);
+            $pem = static::convertDerToPem($source, $convertSourceIsEncrypted);
         }
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
@@ -52,6 +52,29 @@ class PrivateKey extends Key
         parent::__construct($dataArray);
     }
 
+    /**
+     * Convert PKCS#8 DER to PKCS#8 PEM
+     *
+     * @param string $contents can be a PKCS#8 DER
+     * @param bool $isEncrypted
+     * @return string
+     */
+    public static function convertDerToPem(string $contents, bool $isEncrypted): string
+    {
+        $privateKeyName = ($isEncrypted) ? 'ENCRYPTED PRIVATE KEY' : 'PRIVATE KEY';
+        return "-----BEGIN $privateKeyName-----" . PHP_EOL
+            . chunk_split(base64_encode($contents), 64, PHP_EOL)
+            . "-----END $privateKeyName-----";
+    }
+
+    /**
+     * Create a PrivateKey object by opening a local file
+     * The content file can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     *
+     * @param string $filename must be a local file (without scheme or file:// scheme)
+     * @param string $passPhrase
+     * @return static
+     */
     public static function openFile(string $filename, string $passPhrase): self
     {
         return new self(static::localFileOpen($filename), $passPhrase);
@@ -134,5 +157,28 @@ class PrivateKey extends Key
         } finally {
             openssl_free_key($privateKey);
         }
+    }
+
+    /**
+     * Export the current private key to a new private key with a different password
+     *
+     * @param string $newPassPhrase If empty the new private key will be unencrypted
+     * @return self
+     */
+    public function changePassPhrase(string $newPassPhrase): self
+    {
+        $pem = $this->callOnPrivateKey(
+            function ($privateKey) use ($newPassPhrase): string {
+                $exportConfig = [
+                    'private_key_bits' => $this->publicKey()->numberOfBits(),
+                    'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
+                ];
+                if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
+                    throw new RuntimeException('Cannot export the private KEY to change password');
+                }
+                return $exported;
+            }
+        );
+        return new self($pem, $newPassPhrase);
     }
 }

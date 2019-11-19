@@ -12,7 +12,7 @@ trait LocalFileOpenTrait
 {
     private static function localFileOpen(string $filename): string
     {
-        if (0 === strpos($filename, 'file://')) {
+        if ('file://' === substr($filename, 0, 7)) {
             $filename = substr($filename, 7);
         }
         $scheme = strval(parse_url($filename, PHP_URL_SCHEME));

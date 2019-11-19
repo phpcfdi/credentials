@@ -19,6 +19,13 @@ class PrivateKeyTest extends TestCase
         return PrivateKey::openFile($filename, $password);
     }
 
+    public function createCertificate(): Certificate
+    {
+        // this certificate match with PrivateKey returned by createPrivateKey()
+        $filename = $this->filePath('FIEL_AAA010101AAA/certificate.cer');
+        return Certificate::openFile($filename);
+    }
+
     public function testPemAndPassPhraseProperties(): void
     {
         $passPhrase = trim($this->fileContents('FIEL_AAA010101AAA/password.txt'));
@@ -106,5 +113,24 @@ class PrivateKeyTest extends TestCase
         $certificate = Certificate::openFile($this->filePath($filename));
         $privateKey = $this->createPrivateKey();
         $this->assertSame($expectBelongsTo, $privateKey->belongsTo($certificate));
+    }
+
+    /**
+     * @param string $newPassword
+     * @param string $expectedHeaderName
+     * @testWith ["other password", "ENCRYPTED PRIVATE KEY"]
+     *           ["", "PRIVATE KEY"]
+     */
+    public function testChangePassPhrase(string $newPassword, string $expectedHeaderName): void
+    {
+        $certificate = $this->createCertificate();
+        $baseKey = $this->createPrivateKey();
+
+        $changed = $baseKey->changePassPhrase($newPassword);
+
+        $this->assertNotEquals($baseKey->pem(), $changed->pem(), 'Changed PK must be different than base PK');
+        $this->assertTrue($changed->belongsTo($certificate), 'Changed PK must belong to certificate');
+        $pkcs8Header = sprintf('-----BEGIN %s-----', $expectedHeaderName);
+        $this->assertStringStartsWith($pkcs8Header, $changed->pem(), 'Changed PK does not have expected header');
     }
 }

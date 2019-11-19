@@ -44,13 +44,9 @@ class SerialNumber
 
     public static function createFromBytes(string $input): self
     {
-        $hexadecimal = array_reduce(
-            str_split($input, 1),
-            function (string $carry, string $value): string {
-                return $carry . dechex(ord($value));
-            },
-            ''
-        );
+        $hexadecimal = implode('', array_map(function (string $value): string {
+            return dechex(ord($value));
+        }, str_split($input, 1)));
         return new self($hexadecimal);
     }
 
@@ -61,13 +57,9 @@ class SerialNumber
 
     public function bytes(): string
     {
-        return array_reduce(
-            str_split($this->hexadecimal, 2) ?: [],
-            function (string $carry, string $value): string {
-                return $carry . chr(intval(hexdec($value)));
-            },
-            ''
-        );
+        return implode('', array_map(function (string $value): string {
+            return chr(intval(hexdec($value)));
+        }, str_split($this->hexadecimal, 2) ?: []));
     }
 
     public function decimal(): string

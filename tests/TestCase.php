@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\Credentials\Tests;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function filePath(string $filename): string
     {
