@@ -6,7 +6,7 @@
 
 Nos apegamos a [SEMVER](SEMVER.md), revisa la información para entender mejor el control de versiones.
 
-## Version 1.1.0 2019-11-15
+## Version 1.1.0 2019-11-19
 
 - Se puede crear una llave privada en formato `PKCS#8 DER` encriptada o desprotegida.
   Con este cambio se pueden leer las llaves tal y como las envía el SAT. Gracias @eislasq.

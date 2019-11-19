@@ -111,9 +111,9 @@ Notas de tratamiento de archivos `DER`:
 - Al convertir `PKCS#8 DER` a `PKCS#8 PEM` se determina si es una llave encriptada si se estableció
   una contraseña, si no se estableció se tratará como una llave plana (no encriptada).
 - No se sabe reconocer de forma automática si se trata de un archivo `PKCS#5 DER` por lo que este
-  tipo de llave se deben convertir manualmente antes de intentar abrirlos, su cabecera es `RSA PRIVATE KEY`.
+  tipo de llave se deben convertir *manualmente* antes de intentar abrirlos, su cabecera es `RSA PRIVATE KEY`.
 - A diferencia de los certificados que pueden interpretar un formato `DER base64`, la lectura de llave
-  privada no hace esta distinción, si desea trabajar con un formato simple use `PEM`.
+  privada no hace esta distinción, si desea trabajar con un formato sin caracteres especiales use `PEM`.
 
 Para entender más de los formatos de llaves privadas se puede consultar la siguiente liga:
 <https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences>
