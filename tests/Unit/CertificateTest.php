@@ -178,11 +178,11 @@ class CertificateTest extends TestCase
     public function testCreateSerialNumber(): void
     {
         $reflection = new \ReflectionClass(Certificate::class);
-        $createSerialNumberMethod = $reflection->getMethod('createSerialNumber');
-        $createSerialNumberMethod->setAccessible(true);
+        $reflectionMethod = $reflection->getMethod('createSerialNumber');
+        $reflectionMethod->setAccessible(true);
         $certificate = $reflection->newInstanceWithoutConstructor();
-        $createSerialNumber = function ($hexadecimal, $decimal) use ($certificate, $createSerialNumberMethod): SerialNumber {
-            return $createSerialNumberMethod->invoke($certificate, $hexadecimal, $decimal);
+        $createSerialNumber = function ($hexadecimal, $decimal) use ($certificate, $reflectionMethod): SerialNumber {
+            return $reflectionMethod->invoke($certificate, $hexadecimal, $decimal);
         };
 
         /** @var SerialNumber $serialNumber */
