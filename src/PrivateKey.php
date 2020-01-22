@@ -73,7 +73,7 @@ class PrivateKey extends Key
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
      * @param string $passPhrase
-     * @return static
+     * @return self
      */
     public static function openFile(string $filename, string $passPhrase): self
     {
