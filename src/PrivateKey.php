@@ -20,7 +20,7 @@ class PrivateKey extends Key
     /** @var string */
     private $passPhrase;
 
-    /** @var PublicKey|null $public key extracted from private key */
+    /** @var PublicKey|null public key extracted from private key */
     private $publicKey;
 
     /**

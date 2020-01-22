@@ -39,7 +39,8 @@ class Rfc4514Test extends TestCase
         $this->assertSame($expected, $object->escapeArray($subject));
     }
 
-    public function providerEscape()
+    /** @return array<string, array<string>> */
+    public function providerEscape(): array
     {
         return [
             'normal' => ['foo bar', 'foo bar'],

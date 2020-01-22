@@ -18,7 +18,8 @@ class PemExtractorTest extends TestCase
         $this->assertSame('', $extractor->extractCertificate());
     }
 
-    public function providerCrLfAndLf()
+    /** @return array<string, array<string>> */
+    public function providerCrLfAndLf(): array
     {
         return [
             'CRLF' => ["\r\n"],

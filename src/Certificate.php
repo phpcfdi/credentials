@@ -45,7 +45,7 @@ class Certificate
             $pem = static::convertDerToPem($contents);
         }
 
-        /** @var array|false $parsed */
+        /** @var array<mixed>|false $parsed */
         $parsed = openssl_x509_parse($pem, true);
         if (false === $parsed) {
             throw new UnexpectedValueException('Cannot parse X509 certificate from contents');
@@ -95,6 +95,9 @@ class Certificate
         return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())));
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function parsed(): array
     {
         return $this->dataArray;
@@ -120,6 +123,7 @@ class Certificate
         return $this->extractString('name');
     }
 
+    /** @return array<string, string> */
     public function subject(): array
     {
         return $this->extractArray('subject');
@@ -135,6 +139,7 @@ class Certificate
         return $this->extractString('hash');
     }
 
+    /** @return array<string, string> */
     public function issuer(): array
     {
         return $this->extractArray('issuer');
@@ -196,11 +201,13 @@ class Certificate
         return $this->extractString('signatureTypeNID');
     }
 
+    /** @return array<mixed> */
     public function purposes(): array
     {
         return $this->extractArray('purposes');
     }
 
+    /** @return array<string, string> */
     public function extensions(): array
     {
         return $this->extractArray('extensions');
