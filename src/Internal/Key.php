@@ -12,11 +12,13 @@ class Key
     /** @var OpenSslKeyTypeEnum|null */
     private $type;
 
+    /** @param array<mixed> $dataArray */
     public function __construct($dataArray)
     {
         $this->dataArray = $dataArray;
     }
 
+    /** @return array<mixed> */
     public function parsed(): array
     {
         return $this->dataArray;
@@ -40,6 +42,7 @@ class Key
         return $this->type;
     }
 
+    /** @return array<mixed> */
     public function typeData(): array
     {
         return $this->extractArray($this->type()->value());

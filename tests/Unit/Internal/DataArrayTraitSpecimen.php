@@ -15,6 +15,7 @@ class DataArrayTraitSpecimen
         DataArrayTrait::extractDateTime as public;
     }
 
+    /** @param array<mixed> $dataArray */
     public function __construct(array $dataArray)
     {
         $this->dataArray = $dataArray;

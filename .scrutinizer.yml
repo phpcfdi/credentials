@@ -4,6 +4,11 @@ filter:
     - 'vendor/'
 
 build:
+  dependencies:
+    override:
+      - composer self-update --no-interaction --no-progress
+      - composer remove squizlabs/php_codesniffer friendsofphp/php-cs-fixer phpstan/phpstan --dev --no-interaction --no-progress --no-update
+      - composer install --no-interaction
   nodes:
     php:
       tests:

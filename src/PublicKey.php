@@ -68,6 +68,12 @@ class PublicKey extends Key
         return openssl_verify($data, $signature, $publicKey, $algorithm);
     }
 
+    /**
+     * Run a clousure with this public key opened
+     *
+     * @param Closure $function
+     * @return mixed
+     */
     public function callOnPublicKey(Closure $function)
     {
         return $this->callOnPublicKeyWithContents($function, $this->publicKeyContents());

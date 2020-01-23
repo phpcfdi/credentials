@@ -23,6 +23,8 @@ así como de la llave pública.
 - La FIEL (o eFirma) es utilizada para firmar electrónicamente documentos (generalmente usando XML-SEC) y
   está reconocida por el gobierno mexicano como una manera de firma legal de una persona física o moral.
 
+Con esta librería no es necesario convertir los archivos generados por el SAT a otro formato,
+se pueden utilizar tal y como el SAT los entrega.
 
 ## Instalación
 
@@ -31,7 +33,6 @@ Usa [composer](https://getcomposer.org/)
 ```shell
 composer require phpcfdi/credentials
 ```
-
 
 ## Ejemplo básico de uso
 
@@ -59,9 +60,7 @@ echo $certificado->rfc(), PHP_EOL; // el RFC del certificado
 echo $certificado->legalName(), PHP_EOL; // el nombre del propietario del certificado
 echo $certificado->branchName(), PHP_EOL; // el nombre de la sucursal (en CSD, en FIEL está vacía)
 echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del certificado
-
 ```
-
 
 ## Acerca de los archivos de certificado y llave privada
 
@@ -74,7 +73,6 @@ a `base64`, en renglones de 64 caracteres y con cabeceras específicas para cert
 
 De esta forma, para usar el certificado `AAA010101AAA.cer` o la llave privada `AAA010101AAA.key` provistos por
 el SAT, no es necesario convertirlos con `openssl` y la librería los detectará correctamente.
-
 
 ### Crear un objeto de certificado `Certificate`
 
@@ -90,7 +88,6 @@ o en las firmas XML, por este motivo, los formatos soportados para crear un obje
   - Si `$content` es un certificado en formato `X.509 PEM` con cabeceras ese se utiliza.
   - Si `$content` está totalmente en `base64`, se interpreta como `X.509 DER base64` y se formatea a `X.509 PEM`
   - En otro caso, se interpreta como formato `X.509 DER`, por lo que se formatea a `X.509 PEM`.
-
 
 ### Crear un objeto de llave privada `PrivateKey`
 
@@ -118,7 +115,6 @@ Notas de tratamiento de archivos `DER`:
 Para entender más de los formatos de llaves privadas se puede consultar la siguiente liga:
 <https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences>
 
-
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
@@ -127,12 +123,10 @@ Esta librería se mantendrá compatible con al menos la versión con
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/) por lo que puedes usar esta librería
 sin temor a romper tu aplicación.
 
-
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
-
 
 ## Copyright and License
 
@@ -146,7 +140,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [source]: https://github.com/phpcfdi/credentials
 [release]: https://github.com/phpcfdi/credentials/releases
 [license]: https://github.com/phpcfdi/credentials/blob/master/LICENSE
-[build]: https://travis-ci.org/phpcfdi/credentials?branch=master
+[build]: https://travis-ci.com/phpcfdi/credentials?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/credentials/
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
@@ -154,7 +148,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?style=flat-square
-[badge-build]: https://img.shields.io/travis/phpcfdi/credentials/master?style=flat-square
+[badge-build]: https://img.shields.io/travis/com/phpcfdi/credentials/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/credentials?style=flat-square
