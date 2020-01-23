@@ -20,7 +20,7 @@ class PrivateKey extends Key
     /** @var string */
     private $passPhrase;
 
-    /** @var PublicKey|null $public key extracted from private key */
+    /** @var PublicKey|null public key extracted from private key */
     private $publicKey;
 
     /**
@@ -73,7 +73,7 @@ class PrivateKey extends Key
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
      * @param string $passPhrase
-     * @return static
+     * @return self
      */
     public static function openFile(string $filename, string $passPhrase): self
     {

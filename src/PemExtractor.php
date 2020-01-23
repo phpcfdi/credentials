@@ -9,7 +9,7 @@ class PemExtractor
     /** @var string */
     private $contents;
 
-    public function __construct($contents)
+    public function __construct(string $contents)
     {
         $this->contents = $contents;
     }

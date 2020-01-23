@@ -20,9 +20,14 @@ use Eclipxe\Enum\Enum;
  *
  * @internal
  */
-class OpenSslKeyTypeEnum extends Enum
+final class OpenSslKeyTypeEnum extends Enum
 {
-    /** @noinspection PhpUnused */
+    /**
+     * Override indices to use OPENSSL constants as indices
+     *
+     * @noinspection PhpUnused
+     * @return array<string, int>
+     */
     protected static function overrideIndices(): array
     {
         return [

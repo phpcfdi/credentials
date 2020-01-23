@@ -39,7 +39,7 @@ class Credential
      * @param string $certificateContents
      * @param string $privateKeyContents
      * @param string $passPhrase
-     * @return static
+     * @return self
      */
     public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
     {
@@ -58,7 +58,7 @@ class Credential
      * @param string $certificateFile
      * @param string $privateKeyFile
      * @param string $passPhrase
-     * @return static
+     * @return self
      */
     public static function openFiles(string $certificateFile, string $privateKeyFile, string $passPhrase): self
     {

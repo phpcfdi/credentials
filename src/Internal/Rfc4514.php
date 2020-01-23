@@ -42,6 +42,10 @@ class Rfc4514
         return $prefix . str_replace(self::INNER_CHARS, self::INNER_REPLACEMENTS, $subject) . $sufix;
     }
 
+    /**
+     * @param array<string, string> $values
+     * @return string
+     */
     public function escapeArray(array $values): string
     {
         return implode(',', array_map(
