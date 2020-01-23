@@ -6,6 +6,16 @@
 
 Nos apegamos a [SEMVER](SEMVER.md), revisa la información para entender mejor el control de versiones.
 
+## Version 1.1.1 2020-01-22
+
+- Weak Break Compatibility Change: `PemExtractor::__construct($contents)` se podría construir con un parámetro de
+  cualquier tipo de datos y al intentar usar el objeto inevitablemente iba a generar un `TypeError`. Se cambió la
+  firma del constructor a `PemExtractor::__construct(string $contents)`, así fallaría desde construir el objeto y
+  no al usar cualquiera de sus métodos.
+- Se actualiza la licencia a 2020.
+- Se actualiza de `phpstan/phpstan-shim: ^0.11` a `phpstan/phpstan: ^0.12`.
+- Se actualiza la integración continua en Travis y Scrutinizer.
+
 ## Version 1.1.0 2019-11-19
 
 - Se puede crear una llave privada en formato `PKCS#8 DER` encriptada o desprotegida.
