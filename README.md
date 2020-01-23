@@ -23,6 +23,9 @@ así como de la llave pública.
 - La FIEL (o eFirma) es utilizada para firmar electrónicamente documentos (generalmente usando XML-SEC) y
   está reconocida por el gobierno mexicano como una manera de firma legal de una persona física o moral.
 
+Con esta librería no es necesario convertir los archivos generados por el SAT a otro formato,
+se pueden utilizar tal y como el SAT los entrega.
+
 ## Instalación
 
 Usa [composer](https://getcomposer.org/)
