@@ -3,21 +3,18 @@ language: php
 # php compatibility
 php: ["7.2", "7.3", "7.4", "8.0"]
 
-env:
-  global:
-    - PHP_CS_FIXER_IGNORE_ENV=yes
-
 cache:
   - directories:
     - $HOME/.composer
 
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry composer self-update --no-progress --no-interaction --2 --stable
+  - travis_retry composer update --no-progress --no-interaction --prefer-dist
 
 script:
-  - vendor/bin/php-cs-fixer fix --verbose
-  - vendor/bin/phpcbf --colors -sp src/ tests/
+  - PHP_CS_FIXER_IGNORE_ENV=yes vendor/bin/php-cs-fixer fix --using-cache=no --verbose --dry-run
+  - vendor/bin/phpcs --colors -sp src/ tests/
   - vendor/bin/phpunit --testdox --verbose
   - vendor/bin/phpstan analyse --no-progress --verbose --level max src/ tests/
 
