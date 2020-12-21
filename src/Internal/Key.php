@@ -13,7 +13,7 @@ class Key
     private $type;
 
     /** @param array<mixed> $dataArray */
-    public function __construct($dataArray)
+    public function __construct(array $dataArray)
     {
         $this->dataArray = $dataArray;
     }

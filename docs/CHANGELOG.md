@@ -6,6 +6,13 @@
 
 Nos apegamos a [SEMVER](SEMVER.md), revisa la información para entender mejor el control de versiones.
 
+## Version 1.1.2 2020-12-20
+
+- Desde esta versión se soporta PHP 8.0. Se hicieron cambios porque en la nueva versión de PHP la librería
+  `openssl` ya no devuelve recursos y se deprecaron las funciones de liberación de recursos.
+- Se agregó la capacidad de abrir un archivo con el path `c:\archivos\certificado.cer`.
+- Se agregó información de cómo poder verificar un certificado usando la API del Gobierno de Colima.
+
 ## Version 1.1.1 2020-01-22
 
 - Weak Break Compatibility Change: `PemExtractor::__construct($contents)` se podría construir con un parámetro de

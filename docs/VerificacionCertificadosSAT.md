@@ -84,3 +84,31 @@ function extract() {
 extract "$CA_PROD_SOURCE" "$CA_PROD_DEST"
 extract "$CA_TEST_SOURCE" "$CA_TEST_DEST"
 ```
+
+## Verificación de certificados a través de la página del Gobierno de Colima
+
+El Gobierno de Colima expone una API JSON en <https://apisnet.col.gob.mx/wsSignGob> que sirve para el propósito
+de verificar el estado de un certificado.
+
+El principal inconveniente del servicio es que no establece la fecha de revocación.
+Por lo que el estado del certificado solo es relativo al momento de la consulta.  
+
+Ejemplo de consumo:
+
+```shell
+curl -X POST -F 'certificado=@/path/to/certificate.cer' \
+  https://apisnet.col.gob.mx/wsSignGob/apiV1/Valida/Certificado
+```
+
+Ejemplo de respuesta:
+
+```json
+{
+    "RESTService": {
+        "Message": "Certificado Aceptado ante el SAT"
+    },
+    "Response": {
+        "OCSPStatus": "Revocado"
+    }
+}
+```

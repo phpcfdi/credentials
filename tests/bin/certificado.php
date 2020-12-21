@@ -21,6 +21,7 @@ exit(call_user_func(
             echo json_encode([
                 'file' => $cerFile,
                 'rfc' => $certificate->rfc(),
+                'serial' => $certificate->serialNumber()->bytes(),
                 'valid since' => $certificate->validFromDateTime()->format('c'),
                 'valid until' => $certificate->validToDateTime()->format('c'),
                 'legalname' => $certificate->legalName(),
