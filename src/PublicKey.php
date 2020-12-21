@@ -59,13 +59,17 @@ class PublicKey extends Key
      * This method id created to wrap and mock openssl_verify
      * @param string $data
      * @param string $signature
-     * @param resource $publicKey
+     * @param mixed $publicKey
      * @param int $algorithm
      * @return int
      */
     protected function openSslVerify(string $data, string $signature, $publicKey, int $algorithm): int
     {
-        return openssl_verify($data, $signature, $publicKey, $algorithm);
+        $verify = openssl_verify($data, $signature, $publicKey, $algorithm);
+        if (false === $verify) {
+            return -1;
+        }
+        return $verify;
     }
 
     /**
@@ -88,13 +92,15 @@ class PublicKey extends Key
     private static function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
     {
         $pubKey = openssl_get_publickey($publicKeyContents);
-        if (! is_resource($pubKey)) {
+        if (false === $pubKey) {
             throw new RuntimeException('Cannot open public key: ' . openssl_error_string());
         }
         try {
             return call_user_func($function, $pubKey);
         } finally {
-            openssl_free_key($pubKey);
+            if (\PHP_VERSION_ID < 80000) {
+                openssl_free_key($pubKey);
+            }
         }
     }
 }

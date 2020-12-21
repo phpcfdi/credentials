@@ -117,7 +117,7 @@ class PrivateKey extends Key
      * This method id created to wrap and mock openssl_sign
      * @param string $data
      * @param string|null $signature
-     * @param resource $privateKey
+     * @param mixed $privateKey
      * @param int $algorithm
      * @return bool
      * @internal
@@ -149,13 +149,15 @@ class PrivateKey extends Key
     public function callOnPrivateKey(Closure $function)
     {
         $privateKey = openssl_get_privatekey($this->pem(), $this->passPhrase());
-        if (! is_resource($privateKey)) {
+        if (false === $privateKey) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
         try {
             return call_user_func($function, $privateKey);
         } finally {
-            openssl_free_key($privateKey);
+            if (\PHP_VERSION_ID < 80000) {
+                openssl_free_key($privateKey);
+            }
         }
     }
 
