@@ -6,6 +6,14 @@
 
 Nos apegamos a [SEMVER](SEMVER.md), revisa la información para entender mejor el control de versiones.
 
+## UNRELEASED 2020-12-20
+
+- Se actualiza `composer.json` para que los scripts se ejecuten con el mismo ejecutable de PHP que fue
+  usado para invocar a `composer`.
+- Se actualiza Travis-CI para que reporte errores usando `phpcs` y `php-cs-fixer`.
+- phpcs: Se ignoran las funciones deprecadas en el código para que la construcción pase.
+- php-cs-fixer: Se reconfigura la regla `ordered_imports`.
+
 ## Version 1.1.2 2020-12-20
 
 - Desde esta versión se soporta PHP 8.0. Se hicieron cambios porque en la nueva versión de PHP la librería
