@@ -50,4 +50,21 @@ class LocalFileOpenTraitTest extends TestCase
         $this->expectExceptionMessage('Unable to locate the file to open');
         $specimen->localFileOpen($filename);
     }
+
+    /**
+     * This test ensures that the correct exception is thrown
+     *
+     * @param string $filename
+     * @testWith ["c:/certs/file.txt"]
+     *           ["file://c:/certs/file.txt"]
+     *           ["c:\\certs\\file.txt"]
+     *           ["file://c:\\certs\\file.txt"]
+     */
+    public function testOpenWithWindowsPath(string $filename): void
+    {
+        $specimen = new LocalFileOpenTraitSpecimen();
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to locate the file to open');
+        $specimen->localFileOpen($filename);
+    }
 }
