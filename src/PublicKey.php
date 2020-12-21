@@ -100,7 +100,9 @@ class PublicKey extends Key
             return call_user_func($function, $pubKey);
         } finally {
             if (PHP_VERSION_ID < 80000) {
+                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
                 openssl_free_key($pubKey);
+                // phpcs:enable
             }
         }
     }
