@@ -80,7 +80,7 @@ class Certificate
      * @param string $filename must be a local file (without scheme or file:// scheme)
      * @return Certificate
      */
-    public static function openFile(string $filename)
+    public static function openFile(string $filename): self
     {
         return new self(static::localFileOpen($filename));
     }
@@ -92,7 +92,7 @@ class Certificate
 
     public function pemAsOneLine(): string
     {
-        return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())));
+        return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())) ?: []);
     }
 
     /**

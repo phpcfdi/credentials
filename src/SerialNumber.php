@@ -44,9 +44,12 @@ class SerialNumber
 
     public static function createFromBytes(string $input): self
     {
-        $hexadecimal = implode('', array_map(function (string $value): string {
-            return dechex(ord($value));
-        }, str_split($input, 1)));
+        $hexadecimal = implode('', array_map(
+            function (string $value): string {
+                return dechex(ord($value));
+            },
+            str_split($input, 1)
+        ));
         return new self($hexadecimal);
     }
 

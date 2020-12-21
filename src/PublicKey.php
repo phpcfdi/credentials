@@ -8,6 +8,7 @@ use Closure;
 use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
+use const PHP_VERSION_ID;
 
 class PublicKey extends Key
 {
@@ -98,7 +99,7 @@ class PublicKey extends Key
         try {
             return call_user_func($function, $pubKey);
         } finally {
-            if (\PHP_VERSION_ID < 80000) {
+            if (PHP_VERSION_ID < 80000) {
                 openssl_free_key($pubKey);
             }
         }

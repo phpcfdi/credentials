@@ -9,6 +9,7 @@ use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 use UnexpectedValueException;
+use const PHP_VERSION_ID;
 
 class PrivateKey extends Key
 {
@@ -155,7 +156,7 @@ class PrivateKey extends Key
         try {
             return call_user_func($function, $privateKey);
         } finally {
-            if (\PHP_VERSION_ID < 80000) {
+            if (PHP_VERSION_ID < 80000) {
                 openssl_free_key($privateKey);
             }
         }
