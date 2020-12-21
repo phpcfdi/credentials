@@ -39,7 +39,10 @@ return PhpCsFixer\Config::create()
         'single_blank_line_before_namespace' => true,
         'linebreak_after_opening_tag' => true,
         'blank_line_after_opening_tag' => true,
-        'ordered_imports' => true,
+        'ordered_imports' => [
+            'imports_order' => ['class', 'const', 'function'],
+            'sort_algorithm' => 'alpha',
+        ],
         'array_syntax' => ['syntax' => 'short'],
     ])
     ->setFinder(
