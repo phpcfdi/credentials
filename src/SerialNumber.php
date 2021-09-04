@@ -9,8 +9,8 @@ use UnexpectedValueException;
 
 /**
  * This class is used to load hexadecimal or decimal data as a certificate serial number.
- * It have its own class because SOLID and is easy to test in this way.
- * It is not intented to use in general.
+ * It has its own class because SOLID and is easy to test in this way.
+ * It is not intended to use in general.
  */
 class SerialNumber
 {
@@ -44,6 +44,7 @@ class SerialNumber
 
     public static function createFromBytes(string $input): self
     {
+        /** @noinspection PhpRedundantOptionalArgumentInspection */
         $hexadecimal = implode('', array_map(
             function (string $value): string {
                 return dechex(ord($value));
@@ -62,7 +63,7 @@ class SerialNumber
     {
         return implode('', array_map(function (string $value): string {
             return chr(intval(hexdec($value)));
-        }, str_split($this->hexadecimal, 2) ?: []));
+        }, str_split($this->hexadecimal, 2)));
     }
 
     public function decimal(): string

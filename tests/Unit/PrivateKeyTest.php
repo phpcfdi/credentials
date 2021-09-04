@@ -89,7 +89,7 @@ class PrivateKeyTest extends TestCase
             ->setConstructorArgs([$source, ''])
             ->getMock();
         $privateKey->expects($this->once())->method('openSslSign')->willReturnCallback(
-            function (string $data, ? string &$signature, $privateKey, int $algorithm): bool {
+            function (string $data, ?string &$signature, $privateKey, int $algorithm): bool {
                 unset($data, $privateKey, $algorithm); // avoid ugly PhpStorm warning
                 $signature = '';
                 return true;
@@ -101,12 +101,18 @@ class PrivateKeyTest extends TestCase
         $privateKey->sign('');
     }
 
+    /** @return array<string, array{string, bool}> */
+    public function providerBelongsTo(): array
+    {
+        return [
+            'paired certificate' => ['FIEL_AAA010101AAA/certificate.cer', true],
+            'other certificate' => ['CSD01_AAA010101AAA/certificate.cer', false],
+        ];
+    }
+
     /**
-     * @param string $filename
-     * @param bool $expectBelongsTo
      * @covers \PhpCfdi\Credentials\PrivateKey::belongsTo
-     * @testWith ["FIEL_AAA010101AAA/certificate.cer", true]
-     *           ["CSD01_AAA010101AAA/certificate.cer", false]
+     * @dataProvider providerBelongsTo
      */
     public function testBelongsTo(string $filename, bool $expectBelongsTo): void
     {
@@ -115,12 +121,16 @@ class PrivateKeyTest extends TestCase
         $this->assertSame($expectBelongsTo, $privateKey->belongsTo($certificate));
     }
 
-    /**
-     * @param string $newPassword
-     * @param string $expectedHeaderName
-     * @testWith ["other password", "ENCRYPTED PRIVATE KEY"]
-     *           ["", "PRIVATE KEY"]
-     */
+    /** @return array<string, array{string, string}> */
+    public function providerChangePassPhrase(): array
+    {
+        return [
+            'clear password' => ['', 'PRIVATE KEY'],
+            'change password' => ['other password', 'ENCRYPTED PRIVATE KEY'],
+        ];
+    }
+
+    /** @dataProvider providerChangePassPhrase */
     public function testChangePassPhrase(string $newPassword, string $expectedHeaderName): void
     {
         $certificate = $this->createCertificate();

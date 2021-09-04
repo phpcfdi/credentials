@@ -10,7 +10,7 @@
 
 > Library to use eFirma (fiel) and CSD (sellos) from SAT
 
-:us: The documentation of this project is in spanish as this is the natural language for intented audience.
+:us: The documentation of this project is in spanish as this is the natural language for intended audience.
 
 :mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
 
@@ -40,7 +40,7 @@ composer require phpcfdi/credentials
 <?php declare(strict_types=1);
 
 $cerFile = 'fiel/certificado.cer';
-$pemKeyFile = 'fiel/privatekey.key';
+$pemKeyFile = 'fiel/private-key.key';
 $passPhrase = '12345678a'; // contraseña para abrir la llave privada
 
 $fiel = PhpCfdi\Credentials\Credential::openFiles($cerFile, $pemKeyFile, $passPhrase);
@@ -66,7 +66,7 @@ echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del cer
 
 Los archivos de certificado vienen en formato `X.509 DER` y los de llave privada en formato `PKCS#8 DER`.
 Ambos formatos no se pueden interpretar directamente en PHP (con `ext-openssl`), sin embargo sí lo pueden hacer
-en el formatos compatible [`PEM`](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail).
+en el formato compatible [`PEM`](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail).
 
 Esta librería tiene la capacidad de hacer esta conversión internamente (sin `openssl`), pues solo consiste en codificar
 a `base64`, en renglones de 64 caracteres y con cabeceras específicas para certificado y llave privada.
@@ -115,7 +115,7 @@ Notas de tratamiento de archivos `DER`:
 Para entender más de los formatos de llaves privadas se puede consultar la siguiente liga:
 <https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences>
 
-## Compatilibilidad
+## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
 [soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
@@ -126,29 +126,29 @@ sin temor a romper tu aplicación.
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
-y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
+y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGELOG][].
 
 ## Copyright and License
 
-The phpcfdi/finkok library is copyright © [PhpCfdi](https://github.com/phpcfdi)
+The `phpcfdi/credentials` library is copyright © [PhpCfdi](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
-[contributing]: https://github.com/phpcfdi/credentials/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/phpcfdi/credentials/blob/master/docs/CHANGELOG.md
-[todo]: https://github.com/phpcfdi/credentials/blob/master/docs/TODO.md
+[contributing]: https://github.com/phpcfdi/credentials/blob/main/CONTRIBUTING.md
+[changelog]: https://github.com/phpcfdi/credentials/blob/main/docs/CHANGELOG.md
+[todo]: https://github.com/phpcfdi/credentials/blob/main/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/credentials
 [release]: https://github.com/phpcfdi/credentials/releases
-[license]: https://github.com/phpcfdi/credentials/blob/master/LICENSE
-[build]: https://travis-ci.com/phpcfdi/credentials?branch=master
+[license]: https://github.com/phpcfdi/credentials/blob/main/LICENSE
+[build]: https://github.com/phpcfdi/credentials/actions/workflows/build.yml?query=branch:main
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/credentials/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/master/code-coverage/src/
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/credentials/code-structure/main/code-coverage
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/credentials-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?style=flat-square
-[badge-build]: https://img.shields.io/travis/com/phpcfdi/credentials/master?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/master?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/master?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/credentials/build/main?style=flat-square
+[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/credentials/main?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/credentials/main?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/credentials?style=flat-square

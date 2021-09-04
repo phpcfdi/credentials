@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use PhpCfdi\Credentials\Certificate;
 use PhpCfdi\Credentials\SerialNumber;
 use PhpCfdi\Credentials\Tests\TestCase;
+use ReflectionClass;
 use UnexpectedValueException;
 
 /**
@@ -177,7 +178,7 @@ class CertificateTest extends TestCase
 
     public function testCreateSerialNumber(): void
     {
-        $reflection = new \ReflectionClass(Certificate::class);
+        $reflection = new ReflectionClass(Certificate::class);
         $reflectionMethod = $reflection->getMethod('createSerialNumber');
         $reflectionMethod->setAccessible(true);
         $certificate = $reflection->newInstanceWithoutConstructor();
@@ -185,7 +186,6 @@ class CertificateTest extends TestCase
             return $reflectionMethod->invoke($certificate, $hexadecimal, $decimal);
         };
 
-        /** @var SerialNumber $serialNumber */
         $serialNumber = $createSerialNumber('0x3330', '');
         $this->assertSame('3330', $serialNumber->hexadecimal());
 

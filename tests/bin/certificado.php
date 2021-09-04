@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\Credentials;
 
+use Exception;
+use Throwable;
+
 require __DIR__ . '/../../vendor/autoload.php';
 
 exit(call_user_func(
@@ -13,7 +16,7 @@ exit(call_user_func(
                 echo 'Show certificate information', PHP_EOL;
                 echo "Syntax: $cmd certificate-file", PHP_EOL;
                 if ('' === $cerFile) {
-                    throw new \Exception('No certificate file was set');
+                    throw new Exception('No certificate file was set');
                 }
                 return 0;
             }
@@ -29,7 +32,7 @@ exit(call_user_func(
                 'parsed' => $certificate->parsed(),
             ], JSON_PRETTY_PRINT), PHP_EOL;
             return 0;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             file_put_contents('php://stderr', 'ERROR: ' . $exception->getMessage() . PHP_EOL, FILE_APPEND);
             return 1;
         }
