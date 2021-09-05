@@ -9,6 +9,7 @@ use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 use UnexpectedValueException;
+
 use const PHP_VERSION_ID;
 
 class PrivateKey extends Key
@@ -123,7 +124,7 @@ class PrivateKey extends Key
      * @return bool
      * @internal
      */
-    protected function openSslSign(string $data, ? string &$signature, $privateKey, int $algorithm): bool
+    protected function openSslSign(string $data, ?string &$signature, $privateKey, int $algorithm): bool
     {
         return openssl_sign($data, $signature, $privateKey, $algorithm);
     }
@@ -157,7 +158,9 @@ class PrivateKey extends Key
             return call_user_func($function, $privateKey);
         } finally {
             if (PHP_VERSION_ID < 80000) {
+                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
                 openssl_free_key($privateKey);
+                // phpcs:enable
             }
         }
     }

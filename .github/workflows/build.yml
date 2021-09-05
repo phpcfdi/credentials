@@ -1,0 +1,106 @@
+name: build
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 16 * * 0' # sunday 16:00
+
+jobs:
+
+  ci: # this job runs all the development tools and upload code coverage to scrutinizer
+
+    name: PHP 8.0 (full)
+    runs-on: "ubuntu-latest"
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # see https://github.com/marketplace/actions/setup-php-action
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, openssl
+          coverage: xdebug
+          tools: composer:v2, phpcs, php-cs-fixer, phpstan, cs2pr
+        env:
+          fail-fast: true
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+
+      - name: Code style (phpcs)
+        run: phpcs -q --report=checkstyle | cs2pr
+
+      - name: Code style (php-cs-fixer)
+        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+
+      - name: Tests (phpunit with code coverage)
+        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml --coverage-xml=build/coverage --log-junit=build/coverage/junit.xml
+
+      - name: Code analysis (phpstan)
+        run: phpstan analyse --no-progress --verbose
+
+      # see https://github.com/marketplace/actions/action-scrutinizer
+      - name: Upload code coverage to scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/coverage-clover.xml"
+        continue-on-error: true
+
+  build: # this job runs tests on all php supported versions
+
+    name: PHP ${{ matrix.php-versions }} (tests)
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4']
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # see https://github.com/marketplace/actions/setup-php-action
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, openssl
+          coverage: none
+          tools: composer:v2, cs2pr
+        env:
+          fail-fast: true
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+
+      - name: Tests
+        run: vendor/bin/phpunit --testdox --verbose

@@ -6,27 +6,30 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "phpCfdi",
-            "email": "contact@phpcfdi.com",
-            "homepage": "https://www.phpcfdi.com/"
+            "name": "Carlos C Soto",
+            "email": "eclipxe13@gmail.com"
         }
     ],
     "support": {
         "source": "https://github.com/phpcfdi/credentials",
         "issues": "https://github.com/phpcfdi/credentials/issues"
     },
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
     "require": {
-        "php": ">=7.2",
-        "ext-openssl": "*",
+        "php": ">=7.3",
         "ext-mbstring": "*",
+        "ext-openssl": "*",
         "eclipxe/enum": "^0.2.0"
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^8.4",
-        "squizlabs/php_codesniffer": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.4",
-        "phpstan/phpstan": "^0.12"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -41,27 +44,27 @@
     "scripts": {
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
-            "vendor/bin/php-cs-fixer fix --dry-run --verbose",
-            "vendor/bin/phpcs --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp"
         ],
         "dev:fix-style": [
-            "vendor/bin/php-cs-fixer fix --verbose",
-            "vendor/bin/phpcbf --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp"
         ],
         "dev:test": [
             "@dev:check-style",
-            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --no-progress --verbose --level max src/ tests/"
+            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php tools/phpstan analyse --no-progress"
         ],
         "dev:coverage": [
-            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
-        "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
+        "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: dev:check-style, phpunit and phpstan",
+        "dev:test": "DEV: run dev:check-style, phpunit and phpstan",
         "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     }
 }

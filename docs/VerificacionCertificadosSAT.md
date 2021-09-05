@@ -14,7 +14,7 @@ Para ello necesitaremos de `openssl`. El procedimiento general consiste en:
 1. Comparar el certificado PEM contra los certificados raíz.
 
 Lo mejor sería que el SAT tuviera un servicio público de consulta de certificados, incluso saber si un
-certificado ha sido revocado, el problema es que sí tienen el servicio pero está restringido a agencias
+certificado ha sido revocado, el problema es que sí tienen el servicio, pero está restringido a agencias
 gubernamentales <https://www.gob.mx/cms/uploads/attachment/file/36607/ANEXO-UNICO_Req-de-uso-de-OCSP.pdf>
 
 ## Verificación de certificado
@@ -63,9 +63,9 @@ utilizar como `CApath` los certificados raíz ofrecidos por el SAT:
 ```bash
 #!/bin/bash -e
 
-CA_PROD_SOURCE="http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/Cert_Prod.zip"
+CA_PROD_SOURCE="https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/Cert_Prod.zip"
 CA_PROD_DEST="ca_production"
-CA_TEST_SOURCE="http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/Certificados_P.zip"
+CA_TEST_SOURCE="https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/Certificados_P.zip"
 CA_TEST_DEST="ca_testing"
 
 function extract() {

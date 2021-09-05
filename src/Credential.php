@@ -33,8 +33,8 @@ class Credential
     /**
      * Create a Credential object based on string contents
      *
-     * The certificate content can be a X.509 PEM, X.509 DER or X.509 DER base64
-     * The private key content can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     * The certificate content can be X.509 PEM, X.509 DER or X.509 DER base64
+     * The private key content can be PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
      *
      * @param string $certificateContents
      * @param string $privateKeyContents
@@ -52,8 +52,8 @@ class Credential
      * Create a Credential object based on local files
      *
      * File paths must be local, can have no schema or file:// schema
-     * The certificate file content can be a X.509 PEM, X.509 DER or X.509 DER base64
-     * The private key file content can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     * The certificate file content can be X.509 PEM, X.509 DER or X.509 DER base64
+     * The private key file content can be PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
      *
      * @param string $certificateFile
      * @param string $privateKeyFile

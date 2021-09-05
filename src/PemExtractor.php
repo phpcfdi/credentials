@@ -78,7 +78,7 @@ class PemExtractor
     /**
      * Changes EOL CRLF or LF to PHP_EOL.
      * This won't alter CR that are not at EOL.
-     * This won't alter LFCR used in old Mac style
+     * This won't alter LF+CR used in old Mac style
      *
      * @param string $content
      * @return string
