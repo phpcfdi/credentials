@@ -11,6 +11,16 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 1.1.4 2022-01-31
+
+- Se mejora la forma en como son procesados los tipos de datos del certificado.
+- Se actualiza el año de licencia. ¡Feliz 2022!
+- Se actualizan las herramientas de desarrollo, en especial PHPStan 1.4.4.
+- Se hacen las correcciones a los problemas detectados por PHPStan.
+- Se mejoran las pruebas y se incrementa la cobertura de código.
+- Se actualiza el flujo de *CI* llevando los pasos a trabajos y se agrega PHP 8.1.
+- Se actualiza el nombre del grupo de mantenedores de phpCfdi.
+
 ### Versión 1.1.3 2021-09-03
 
 - La versión menor de PHP es 7.3.
