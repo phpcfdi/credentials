@@ -71,7 +71,7 @@ class PublicKey extends Key
     {
         $verify = openssl_verify($data, $signature, $publicKey, $algorithm);
         if (false === $verify) {
-            return -1;
+            return -1; // @codeCoverageIgnore
         }
         return $verify;
     }

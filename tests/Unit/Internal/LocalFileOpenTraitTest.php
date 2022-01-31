@@ -24,6 +24,14 @@ class LocalFileOpenTraitTest extends TestCase
         $this->assertStringEqualsFile($filename, $specimen->localFileOpen($filename));
     }
 
+    public function testOpenEmptyFile(): void
+    {
+        $specimen = new LocalFileOpenTraitSpecimen();
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('The file to open is empty');
+        $specimen->localFileOpen('');
+    }
+
     public function testOpenWithDubleSchemeOnPath(): void
     {
         $filename = 'file://http://example.com/index.htm';

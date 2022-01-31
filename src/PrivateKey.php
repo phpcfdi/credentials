@@ -184,7 +184,9 @@ class PrivateKey extends Key
                     'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
                 ];
                 if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
+                    // @codeCoverageIgnoreStart
                     throw new RuntimeException('Cannot export the private KEY to change password');
+                    // @codeCoverageIgnoreEnd
                 }
                 return $exported;
             }
