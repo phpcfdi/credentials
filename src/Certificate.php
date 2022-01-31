@@ -52,8 +52,8 @@ class Certificate
         }
         $this->pem = $pem;
         $this->dataArray = $parsed;
-        $this->rfc = strval(strstr(($parsed['subject']['x500UniqueIdentifier'] ?? '') . ' ', ' ', true));
-        $this->legalName = strval($parsed['subject']['name'] ?? '');
+        $this->rfc = strval(strstr($this->subjectData('x500UniqueIdentifier') . ' ', ' ', true));
+        $this->legalName = $this->subjectData('name');
     }
 
     /**
@@ -126,12 +126,12 @@ class Certificate
     /** @return array<string, string> */
     public function subject(): array
     {
-        return $this->extractArray('subject');
+        return $this->extractArrayStrings('subject');
     }
 
     public function subjectData(string $key): string
     {
-        return strval($this->subject()[$key] ?? null);
+        return strval($this->subject()[$key] ?? '');
     }
 
     public function hash(): string
@@ -142,7 +142,7 @@ class Certificate
     /** @return array<string, string> */
     public function issuer(): array
     {
-        return $this->extractArray('issuer');
+        return $this->extractArrayStrings('issuer');
     }
 
     public function issuerData(string $string): string
@@ -210,7 +210,7 @@ class Certificate
     /** @return array<string, string> */
     public function extensions(): array
     {
-        return $this->extractArray('extensions');
+        return $this->extractArrayStrings('extensions');
     }
 
     public function publicKey(): PublicKey
