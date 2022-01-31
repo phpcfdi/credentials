@@ -45,7 +45,6 @@ class Certificate
             $pem = static::convertDerToPem($contents);
         }
 
-        /** @var array<mixed>|false $parsed */
         $parsed = openssl_x509_parse($pem, true);
         if (false === $parsed) {
             throw new UnexpectedValueException('Cannot parse X509 certificate from contents');
