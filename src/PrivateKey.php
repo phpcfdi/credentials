@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\Credentials;
 
 use Closure;
+use OpenSSLAsymmetricKey;
 use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
@@ -117,9 +118,10 @@ class PrivateKey extends Key
 
     /**
      * This method id created to wrap and mock openssl_sign
+     *
      * @param string $data
      * @param string|null $signature
-     * @param mixed $privateKey
+     * @param OpenSSLAsymmetricKey $privateKey
      * @param int $algorithm
      * @return bool
      * @internal
@@ -144,18 +146,20 @@ class PrivateKey extends Key
     }
 
     /**
-     * @param Closure $function
-     * @return mixed
+     * @template T
+     * @param Closure(OpenSSLAsymmetricKey): T $function
+     * @return T
      * @throws RuntimeException when cannot open the public key from certificate
      */
     public function callOnPrivateKey(Closure $function)
     {
+        /** @var false|OpenSSLAsymmetricKey $privateKey */
         $privateKey = openssl_get_privatekey($this->pem(), $this->passPhrase());
         if (false === $privateKey) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
         try {
-            return call_user_func($function, $privateKey);
+            return $function($privateKey);
         } finally {
             if (PHP_VERSION_ID < 80000) {
                 // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
