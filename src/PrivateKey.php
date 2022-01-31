@@ -108,6 +108,7 @@ class PrivateKey extends Key
                 if (false === $this->openSslSign($data, $signature, $privateKey, $algorithm)) {
                     throw new RuntimeException('Cannot sign data: ' . openssl_error_string());
                 }
+                $signature = strval($signature);
                 if ('' === $signature) {
                     throw new RuntimeException('Cannot sign data: empty signature');
                 }
