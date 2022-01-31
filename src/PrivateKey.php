@@ -79,7 +79,7 @@ class PrivateKey extends Key
      */
     public static function openFile(string $filename, string $passPhrase): self
     {
-        return new self(static::localFileOpen($filename), $passPhrase);
+        return new self(self::localFileOpen($filename), $passPhrase);
     }
 
     public function pem(): string

@@ -29,7 +29,7 @@ class PublicKey extends Key
 
     public static function openFile(string $filename): self
     {
-        return new self(static::localFileOpen($filename));
+        return new self(self::localFileOpen($filename));
     }
 
     /**
