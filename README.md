@@ -153,12 +153,12 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [violations]: https://sonarcloud.io/project/issues?id=phpcfdi_credentials&resolved=false
 [downloads]: https://packagist.org/packages/phpcfdi/credentials
 
-[badge-source]: https://img.shields.io/badge/source-phpcfdi/cfdi--sat--scraper-blue?logo=github
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/credentials-blue?logo=github
 [badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord
 [badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/credentials?logo=php
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?logo=git
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?logo=open-source-initiative
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/credentials/build/main?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/credentials/build/main?logo=github-actions
 [badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_credentials&metric=reliability_rating
 [badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_credentials&metric=sqale_rating
 [badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_credentials/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
