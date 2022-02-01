@@ -49,6 +49,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se actualiza la licencia a 2020.
 - Se actualiza de `phpstan/phpstan-shim: ^0.11` a `phpstan/phpstan: ^0.12`.
 - Se actualiza la integración continua en Travis y Scrutinizer.
+- Se actualizan los badges al nuevo estilo de phpCfdi.
 
 ### Version 1.1.0 2019-11-19
 
