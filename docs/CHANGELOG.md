@@ -20,6 +20,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se mejoran las pruebas y se incrementa la cobertura de código.
 - Se actualiza el flujo de *CI* llevando los pasos a trabajos y se agrega PHP 8.1.
 - Se actualiza el nombre del grupo de mantenedores de phpCfdi.
+- Se agrega la plataforma SonarQube vía <https://sonarcloud.io>.
 
 ### Versión 1.1.3 2021-09-03
 
