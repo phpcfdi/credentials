@@ -13,7 +13,6 @@ trait DataArrayTrait
     protected $dataArray;
 
     /**
-     * @param string $key
      * @param string|int|float|bool $default
      * @return string|int|float|bool
      */
@@ -40,10 +39,7 @@ trait DataArrayTrait
         return 0;
     }
 
-    /**
-     * @param string $key
-     * @return array<mixed>
-     */
+    /** @return array<mixed> */
     protected function extractArray(string $key): array
     {
         $data = $this->dataArray[$key] ?? null;
@@ -51,6 +47,18 @@ trait DataArrayTrait
             return [];
         }
         return $data;
+    }
+
+    /** @return array<string, string> */
+    protected function extractArrayStrings(string $key): array
+    {
+        $array = [];
+        foreach ($this->extractArray($key) as $name => $value) {
+            if (is_scalar($value) || is_object($value)) {
+                $array[$name] = strval($value);
+            }
+        }
+        return $array;
     }
 
     protected function extractDateTime(string $key): DateTimeImmutable

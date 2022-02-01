@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\Credentials\Tests\Unit;
 
 use DateTimeImmutable;
+use LogicException;
 use PhpCfdi\Credentials\Certificate;
 use PhpCfdi\Credentials\SerialNumber;
 use PhpCfdi\Credentials\Tests\TestCase;
@@ -176,27 +177,37 @@ class CertificateTest extends TestCase
         $this->assertNotEmpty($certificate->signatureTypeNID());
     }
 
-    public function testCreateSerialNumber(): void
+    /**
+     * Calls protected method Certificate::createSerialNumber
+     * @see Certificate::createSerialNumber()
+     */
+    private function certificateCreateSerialNumber(string $hexadecimal, string $decimal): SerialNumber
     {
         $reflection = new ReflectionClass(Certificate::class);
         $reflectionMethod = $reflection->getMethod('createSerialNumber');
         $reflectionMethod->setAccessible(true);
         $certificate = $reflection->newInstanceWithoutConstructor();
-        $createSerialNumber = function ($hexadecimal, $decimal) use ($certificate, $reflectionMethod): SerialNumber {
-            return $reflectionMethod->invoke($certificate, $hexadecimal, $decimal);
-        };
+        $serialNumber = $reflectionMethod->invoke($certificate, $hexadecimal, $decimal);
 
-        $serialNumber = $createSerialNumber('0x3330', '');
+        if (! $serialNumber instanceof SerialNumber) {
+            throw new LogicException('Expected SerialNumber but received a different object');
+        }
+        return $serialNumber;
+    }
+
+    public function testCreateSerialNumber(): void
+    {
+        $serialNumber = $this->certificateCreateSerialNumber('0x3330', '');
         $this->assertSame('3330', $serialNumber->hexadecimal());
 
-        $serialNumber = $createSerialNumber('', '0x3330');
+        $serialNumber = $this->certificateCreateSerialNumber('', '0x3330');
         $this->assertSame('3330', $serialNumber->hexadecimal());
 
-        $serialNumber = $createSerialNumber('', '13104');
+        $serialNumber = $this->certificateCreateSerialNumber('', '13104');
         $this->assertSame('3330', $serialNumber->hexadecimal());
 
         try {
-            $createSerialNumber('', '');
+            $this->certificateCreateSerialNumber('', '');
             $this->fail('Call to createSerialNumber did not throw a UnexpectedValueException');
         } catch (UnexpectedValueException $exception) {
             $this->assertStringContainsString('Certificate does not contain a serial number', $exception->getMessage());

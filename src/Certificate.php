@@ -45,15 +45,14 @@ class Certificate
             $pem = static::convertDerToPem($contents);
         }
 
-        /** @var array<mixed>|false $parsed */
         $parsed = openssl_x509_parse($pem, true);
         if (false === $parsed) {
             throw new UnexpectedValueException('Cannot parse X509 certificate from contents');
         }
         $this->pem = $pem;
         $this->dataArray = $parsed;
-        $this->rfc = strval(strstr(($parsed['subject']['x500UniqueIdentifier'] ?? '') . ' ', ' ', true));
-        $this->legalName = strval($parsed['subject']['name'] ?? '');
+        $this->rfc = strval(strstr($this->subjectData('x500UniqueIdentifier') . ' ', ' ', true));
+        $this->legalName = $this->subjectData('name');
     }
 
     /**
@@ -82,7 +81,7 @@ class Certificate
      */
     public static function openFile(string $filename): self
     {
-        return new self(static::localFileOpen($filename));
+        return new self(self::localFileOpen($filename));
     }
 
     public function pem(): string
@@ -126,12 +125,12 @@ class Certificate
     /** @return array<string, string> */
     public function subject(): array
     {
-        return $this->extractArray('subject');
+        return $this->extractArrayStrings('subject');
     }
 
     public function subjectData(string $key): string
     {
-        return strval($this->subject()[$key] ?? null);
+        return strval($this->subject()[$key] ?? '');
     }
 
     public function hash(): string
@@ -142,7 +141,7 @@ class Certificate
     /** @return array<string, string> */
     public function issuer(): array
     {
-        return $this->extractArray('issuer');
+        return $this->extractArrayStrings('issuer');
     }
 
     public function issuerData(string $string): string
@@ -210,7 +209,7 @@ class Certificate
     /** @return array<string, string> */
     public function extensions(): array
     {
-        return $this->extractArray('extensions');
+        return $this->extractArrayStrings('extensions');
     }
 
     public function publicKey(): PublicKey

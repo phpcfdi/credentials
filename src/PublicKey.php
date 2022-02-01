@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\Credentials;
 
 use Closure;
+use OpenSSLAsymmetricKey;
 use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
@@ -29,7 +30,7 @@ class PublicKey extends Key
 
     public static function openFile(string $filename): self
     {
-        return new self(static::localFileOpen($filename));
+        return new self(self::localFileOpen($filename));
     }
 
     /**
@@ -59,9 +60,10 @@ class PublicKey extends Key
 
     /**
      * This method id created to wrap and mock openssl_verify
+     *
      * @param string $data
      * @param string $signature
-     * @param mixed $publicKey
+     * @param OpenSSLAsymmetricKey $publicKey
      * @param int $algorithm
      * @return int
      */
@@ -69,7 +71,7 @@ class PublicKey extends Key
     {
         $verify = openssl_verify($data, $signature, $publicKey, $algorithm);
         if (false === $verify) {
-            return -1;
+            return -1; // @codeCoverageIgnore
         }
         return $verify;
     }
@@ -77,8 +79,9 @@ class PublicKey extends Key
     /**
      * Run a closure with this public key opened
      *
-     * @param Closure $function
-     * @return mixed
+     * @template T
+     * @param Closure(OpenSSLAsymmetricKey): T $function
+     * @return T
      */
     public function callOnPublicKey(Closure $function)
     {
@@ -86,19 +89,21 @@ class PublicKey extends Key
     }
 
     /**
-     * @param Closure $function
+     * @template T
+     * @param Closure(OpenSSLAsymmetricKey): T $function
      * @param string $publicKeyContents
-     * @return mixed
+     * @return T
      * @throws RuntimeException when Cannot open public key
      */
     private static function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
     {
+        /** @var false|OpenSSLAsymmetricKey $pubKey */
         $pubKey = openssl_get_publickey($publicKeyContents);
         if (false === $pubKey) {
             throw new RuntimeException('Cannot open public key: ' . openssl_error_string());
         }
         try {
-            return call_user_func($function, $pubKey);
+            return $function($pubKey);
         } finally {
             if (PHP_VERSION_ID < 80000) {
                 // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated

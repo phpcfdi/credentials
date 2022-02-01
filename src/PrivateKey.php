@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\Credentials;
 
 use Closure;
+use OpenSSLAsymmetricKey;
 use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
@@ -79,7 +80,7 @@ class PrivateKey extends Key
      */
     public static function openFile(string $filename, string $passPhrase): self
     {
-        return new self(static::localFileOpen($filename), $passPhrase);
+        return new self(self::localFileOpen($filename), $passPhrase);
     }
 
     public function pem(): string
@@ -107,6 +108,7 @@ class PrivateKey extends Key
                 if (false === $this->openSslSign($data, $signature, $privateKey, $algorithm)) {
                     throw new RuntimeException('Cannot sign data: ' . openssl_error_string());
                 }
+                $signature = strval($signature);
                 if ('' === $signature) {
                     throw new RuntimeException('Cannot sign data: empty signature');
                 }
@@ -117,9 +119,10 @@ class PrivateKey extends Key
 
     /**
      * This method id created to wrap and mock openssl_sign
+     *
      * @param string $data
      * @param string|null $signature
-     * @param mixed $privateKey
+     * @param OpenSSLAsymmetricKey $privateKey
      * @param int $algorithm
      * @return bool
      * @internal
@@ -144,18 +147,20 @@ class PrivateKey extends Key
     }
 
     /**
-     * @param Closure $function
-     * @return mixed
+     * @template T
+     * @param Closure(OpenSSLAsymmetricKey): T $function
+     * @return T
      * @throws RuntimeException when cannot open the public key from certificate
      */
     public function callOnPrivateKey(Closure $function)
     {
+        /** @var false|OpenSSLAsymmetricKey $privateKey */
         $privateKey = openssl_get_privatekey($this->pem(), $this->passPhrase());
         if (false === $privateKey) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
         try {
-            return call_user_func($function, $privateKey);
+            return $function($privateKey);
         } finally {
             if (PHP_VERSION_ID < 80000) {
                 // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
@@ -180,7 +185,9 @@ class PrivateKey extends Key
                     'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
                 ];
                 if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
+                    // @codeCoverageIgnoreStart
                     throw new RuntimeException('Cannot export the private KEY to change password');
+                    // @codeCoverageIgnoreEnd
                 }
                 return $exported;
             }
