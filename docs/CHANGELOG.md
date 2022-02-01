@@ -21,6 +21,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se actualiza el flujo de *CI* llevando los pasos a trabajos y se agrega PHP 8.1.
 - Se actualiza el nombre del grupo de mantenedores de phpCfdi.
 - Se agrega la plataforma SonarQube vía <https://sonarcloud.io>.
+- Se elimina la integración con Scrutinizer CI. ¡Gracias Scrutinizer CI!
 
 ### Versión 1.1.3 2021-09-03
 
