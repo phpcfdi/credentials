@@ -17,7 +17,7 @@ class PfxReaderTest extends TestCase
      *           ["CSD01_AAA010101AAA/certificate_pfx_with_pass.pfx", "CSD01_AAA010101AAA/password.txt"]
      *           ["CSD01_AAA010101AAA/certificate_with_pk_with_pass.pfx", ""]
      */
-    public function testCreateCredential(string $dir, string $passPhrasePath): void
+    public function testCreateCredentialFromContents(string $dir, string $passPhrasePath): void
     {
         $passPhrase = $this->fileContents($passPhrasePath);
         $expectedCsd = PfxReader::create($this->fileContents('CSD01_AAA010101AAA/certificate.pfx'), '');

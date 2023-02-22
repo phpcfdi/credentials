@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpCfdi\Credentials\Pfx;
 
 use PhpCfdi\Credentials\Credential;
@@ -18,7 +20,7 @@ class PfxReader
         }
         $pemExtractor = new PemExtractor($contents);
         $certificatePem = $pemExtractor->extractCertificate();
-        if ($certificatePem === '') {
+        if ('' === $certificatePem) {
             $pfx = static::convertDerToPem($contents, $passPhrase);
             $certificatePem = trim($pfx['cert']);
             $privateKeyPem = trim($pfx['pkey']);
@@ -36,11 +38,11 @@ class PfxReader
     /**
      * @return array{cert:string, pkey:string}
      */
-    public static function convertDerToPem($contents, $password = ''): array
+    public static function convertDerToPem(string $contents, string $password = ''): array
     {
         $pfx = [];
         openssl_pkcs12_read($contents, $pfx, $password);
-        if ($pfx === []) {
+        if ([] === $pfx) {
             throw new UnexpectedValueException('Wrong Password');
         }
         return $pfx;
