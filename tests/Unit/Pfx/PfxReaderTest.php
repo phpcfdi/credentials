@@ -12,17 +12,15 @@ use UnexpectedValueException;
 class PfxReaderTest extends TestCase
 {
     /**
-     * @testWith ["CSD01_AAA010101AAA/certificate.pfx", ""]
-     *           ["CSD01_AAA010101AAA/certificate.pfx.pem", ""]
-     *           ["CSD01_AAA010101AAA/certificate_pfx_with_pass.pfx", "CSD01_AAA010101AAA/password.txt"]
-     *           ["CSD01_AAA010101AAA/certificate_with_pk_with_pass.pfx", ""]
+     * @testWith ["CSD01_AAA010101AAA/credential_unprotected.pfx", ""]
+     *           ["CSD01_AAA010101AAA/credential_protected.pfx", "CSD01_AAA010101AAA/password.txt"]
      */
     public function testCreateCredentialFromContents(string $dir, string $passPhrasePath): void
     {
         $passPhrase = $this->fileContents($passPhrasePath);
         $reader = new PfxReader();
         $expectedCsd = $reader->createCredentialFromContents(
-            $this->fileContents('CSD01_AAA010101AAA/certificate.pfx'),
+            $this->fileContents('CSD01_AAA010101AAA/credential_unprotected.pfx'),
             ''
         );
 
@@ -37,7 +35,10 @@ class PfxReaderTest extends TestCase
     {
         $reader = new PfxReader();
 
-        $csd = $reader->createCredentialFromFile($this->filePath('CSD01_AAA010101AAA/certificate.pfx'), '');
+        $csd = $reader->createCredentialFromFile(
+            $this->filePath('CSD01_AAA010101AAA/credential_unprotected.pfx'),
+            ''
+        );
 
         $this->assertInstanceOf(Credential::class, $csd);
     }
@@ -70,7 +71,7 @@ class PfxReaderTest extends TestCase
         $this->expectExceptionMessage('Invalid PKCS#12 contents or wrong passphrase');
 
         $reader->createCredentialFromContents(
-            $this->fileContents('CSD01_AAA010101AAA/certificate_pfx_with_pass.pfx'),
+            $this->fileContents('CSD01_AAA010101AAA/credential_protected.pfx'),
             ''
         );
     }

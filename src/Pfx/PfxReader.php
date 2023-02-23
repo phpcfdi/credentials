@@ -6,7 +6,6 @@ namespace PhpCfdi\Credentials\Pfx;
 
 use PhpCfdi\Credentials\Credential;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
-use PhpCfdi\Credentials\PemExtractor;
 use UnexpectedValueException;
 
 class PfxReader
@@ -18,15 +17,9 @@ class PfxReader
         if ('' === $contents) {
             throw new UnexpectedValueException('Create pfx from empty contents');
         }
-        $pemExtractor = new PemExtractor($contents);
-        $certificatePem = $pemExtractor->extractCertificate();
-        if ('' === $certificatePem) {
-            $pfx = static::loadPkcs12($contents, $passPhrase);
-            $certificatePem = trim($pfx['cert']);
-            $privateKeyPem = trim($pfx['pkey']);
-            return Credential::create($certificatePem, $privateKeyPem, '');
-        }
-        $privateKeyPem = $pemExtractor->extractPrivateKey();
+        $pfx = $this->loadPkcs12($contents, $passPhrase);
+        $certificatePem = $pfx['cert'];
+        $privateKeyPem = $pfx['pkey'];
         return Credential::create($certificatePem, $privateKeyPem, '');
     }
 

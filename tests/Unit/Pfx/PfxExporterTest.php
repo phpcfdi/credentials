@@ -26,7 +26,7 @@ class PfxExporterTest extends TestCase
 
         $this->assertSame(
             $reader->loadPkcs12(
-                $this->fileContents('CSD01_AAA010101AAA/certificate.pfx')
+                $this->fileContents('CSD01_AAA010101AAA/credential_unprotected.pfx')
             ),
             $reader->loadPkcs12($pfx)
         );
