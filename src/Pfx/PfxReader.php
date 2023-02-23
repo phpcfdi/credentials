@@ -13,7 +13,7 @@ class PfxReader
 {
     use LocalFileOpenTrait;
 
-    public static function create(string $contents, string $passPhrase): Credential
+    public function createCredentialFromContents(string $contents, string $passPhrase): Credential
     {
         if ('' === $contents) {
             throw new UnexpectedValueException('Create pfx from empty contents');
@@ -21,7 +21,7 @@ class PfxReader
         $pemExtractor = new PemExtractor($contents);
         $certificatePem = $pemExtractor->extractCertificate();
         if ('' === $certificatePem) {
-            $pfx = static::convertDerToPem($contents, $passPhrase);
+            $pfx = static::loadPkcs12($contents, $passPhrase);
             $certificatePem = trim($pfx['cert']);
             $privateKeyPem = trim($pfx['pkey']);
             return Credential::create($certificatePem, $privateKeyPem, '');
@@ -30,21 +30,24 @@ class PfxReader
         return Credential::create($certificatePem, $privateKeyPem, '');
     }
 
-    public static function openFile(string $fileName, string $passPhrase): Credential
+    public function createCredentialFromFile(string $fileName, string $passPhrase): Credential
     {
-        return self::create(self::localFileOpen($fileName), $passPhrase);
+        return $this->createCredentialFromContents(self::localFileOpen($fileName), $passPhrase);
     }
 
     /**
      * @return array{cert:string, pkey:string}
      */
-    public static function convertDerToPem(string $contents, string $password = ''): array
+    public function loadPkcs12(string $contents, string $password = ''): array
     {
         $pfx = [];
         openssl_pkcs12_read($contents, $pfx, $password);
         if ([] === $pfx) {
-            throw new UnexpectedValueException('Wrong Password');
+            throw new UnexpectedValueException('Invalid PKCS#12 contents or wrong passphrase');
         }
-        return $pfx;
+        return [
+            'cert' => $pfx['cert'] ?? '',
+            'pkey' => $pfx['pkey'] ?? '',
+        ];
     }
 }

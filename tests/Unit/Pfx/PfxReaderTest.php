@@ -20,8 +20,14 @@ class PfxReaderTest extends TestCase
     public function testCreateCredentialFromContents(string $dir, string $passPhrasePath): void
     {
         $passPhrase = $this->fileContents($passPhrasePath);
-        $expectedCsd = PfxReader::create($this->fileContents('CSD01_AAA010101AAA/certificate.pfx'), '');
-        $csd = PfxReader::create($this->fileContents($dir), $passPhrase);
+        $reader = new PfxReader();
+        $expectedCsd = $reader->createCredentialFromContents(
+            $this->fileContents('CSD01_AAA010101AAA/certificate.pfx'),
+            ''
+        );
+
+        $csd = $reader->createCredentialFromContents($this->fileContents($dir), $passPhrase);
+
         $this->assertInstanceOf(Credential::class, $csd);
         $this->assertSame($expectedCsd->certificate()->pem(), $csd->certificate()->pem());
         $this->assertSame($expectedCsd->privateKey()->pem(), $csd->privateKey()->pem());
@@ -29,21 +35,43 @@ class PfxReaderTest extends TestCase
 
     public function testCreateCredentialFromPath(): void
     {
-        $csd = PfxReader::openFile($this->filePath('CSD01_AAA010101AAA/certificate.pfx'), '');
+        $reader = new PfxReader();
+
+        $csd = $reader->createCredentialFromFile($this->filePath('CSD01_AAA010101AAA/certificate.pfx'), '');
+
         $this->assertInstanceOf(Credential::class, $csd);
     }
 
     public function testCreateCredentialEmptyContents(): void
     {
+        $reader = new PfxReader();
+
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Create pfx from empty contents');
-        PfxReader::create('', '');
+
+        $reader->createCredentialFromContents('', '');
+    }
+
+    public function testCreateCredentialWrongContent(): void
+    {
+        $reader = new PfxReader();
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Invalid PKCS#12 contents or wrong passphrase');
+
+        $reader->createCredentialFromContents('invalid-contents', '');
     }
 
     public function testCreateCredentialWrongPassword(): void
     {
+        $reader = new PfxReader();
+
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Wrong Password');
-        PfxReader::create($this->fileContents('CSD01_AAA010101AAA/certificate_pfx_with_pass.pfx'), '');
+        $this->expectExceptionMessage('Invalid PKCS#12 contents or wrong passphrase');
+
+        $reader->createCredentialFromContents(
+            $this->fileContents('CSD01_AAA010101AAA/certificate_pfx_with_pass.pfx'),
+            ''
+        );
     }
 }

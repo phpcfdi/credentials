@@ -13,6 +13,7 @@ class PfxExporterTest extends TestCase
 {
     public function testExport(): void
     {
+        $reader = new PfxReader();
         $credential = Credential::openFiles(
             $this->filePath('CSD01_AAA010101AAA/certificate.cer'),
             $this->filePath('CSD01_AAA010101AAA/private_key_protected.key.pem'),
@@ -20,17 +21,20 @@ class PfxExporterTest extends TestCase
         );
         $pfxExporter = new PfxExporter($credential);
         $this->assertInstanceOf(PfxExporter::class, $pfxExporter);
-        $derPfx = $pfxExporter->export('');
+
+        $pfx = $pfxExporter->export('');
+
         $this->assertSame(
-            PfxReader::convertDerToPem(
+            $reader->loadPkcs12(
                 $this->fileContents('CSD01_AAA010101AAA/certificate.pfx')
             ),
-            PfxReader::convertDerToPem($derPfx)
+            $reader->loadPkcs12($pfx)
         );
     }
 
     public function testExportToFile(): void
     {
+        $reader = new PfxReader();
         $credential = Credential::openFiles(
             $this->filePath('CSD01_AAA010101AAA/certificate.cer'),
             $this->filePath('CSD01_AAA010101AAA/private_key_protected.key.pem'),
@@ -40,11 +44,13 @@ class PfxExporterTest extends TestCase
         $this->assertInstanceOf(PfxExporter::class, $pfxExporter);
         /** @var string $name */
         $name = tempnam('', '');
+
         $created = $pfxExporter->exportToFile($name, '');
+
         $this->assertTrue($created);
         $this->assertInstanceOf(
             Credential::class,
-            PfxReader::openFile($name, '')
+            $reader->createCredentialFromFile($name, '')
         );
     }
 
@@ -56,6 +62,7 @@ class PfxExporterTest extends TestCase
             trim($this->fileContents('CSD01_AAA010101AAA/password.txt'))
         );
         $pfxExporter = new PfxExporter($credential);
+
         $this->assertSame($credential, $pfxExporter->getCredential());
     }
 }
