@@ -71,7 +71,9 @@ Además esta librería soporta obtener el objeto `Credential` desde un archivo p
 Para exportar el archivo pfx:
 
 ```php
-<?php declare(strict_types=1);
+<?php 
+
+declare(strict_types=1);
 
 $credential = PhpCfdi\Credentials\Credential::openFiles(
   'certificate/certificado.cer',
@@ -91,13 +93,18 @@ $created = $pfxExporter->exportToFile($dirName, 'exportablePfxPassPhrase');
 Para leer el archivo pfx y obtener un objeto `Credential`:
 
 ```php
-<?php declare(strict_types=1);
+<?php 
 
-// crea un objeto Credential dado el contenido de un archivo PFX en formato der o pem.
-$credential = PhpCfdi\Credentials\Pfx\PfxReader::create('contenido-del-archivo', 'pfxPassPrhase');
+declare(strict_types=1);
 
-// crea un objeto Credential dada la rutam local de un archivo pfx en formato der o pem.
-$credential = PhpCfdi\Credentials\Pfx\PfxReader::openFile('pfxFilePath', 'pfxPassPrhase');
+// creamos el objeto reader
+$reader = new PhpCfdi\Credentials\Pfx\PfxReader();
+
+// crea un objeto Credential dado el contenido de un archivo PFX en formato der o pem y la contraseña del pfx.
+$credential = $reader->createCredentialFromContents('contenido-del-archivo', 'pfxPassPrhase');
+
+// crea un objeto Credential dada la ruta local de un archivo pfx en formato der o pem y la contraseña del pfx.
+$credential = $reader->createCredentialFromFile('pfxFilePath', 'pfxPassPrhase');
 ```
 
 ## Acerca de los archivos de certificado y llave privada
