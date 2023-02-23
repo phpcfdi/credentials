@@ -20,7 +20,6 @@ class PfxExporterTest extends TestCase
             trim($this->fileContents('CSD01_AAA010101AAA/password.txt'))
         );
         $pfxExporter = new PfxExporter($credential);
-        $this->assertInstanceOf(PfxExporter::class, $pfxExporter);
 
         $pfx = $pfxExporter->export('');
 
@@ -41,7 +40,6 @@ class PfxExporterTest extends TestCase
             trim($this->fileContents('CSD01_AAA010101AAA/password.txt'))
         );
         $pfxExporter = new PfxExporter($credential);
-        $this->assertInstanceOf(PfxExporter::class, $pfxExporter);
         /** @var string $name */
         $name = tempnam('', '');
 
