@@ -66,6 +66,40 @@ echo $certificado->branchName(), PHP_EOL; // el nombre de la sucursal (en CSD, e
 echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del certificado
 ```
 
+Además esta librería soporta obtener el objeto `Credential` desde un archivo pfx y vicerversa.
+
+Para exportar el archivo pfx:
+
+```php
+<?php declare(strict_types=1);
+
+$credential = PhpCfdi\Credentials\Credential::openFiles(
+  'certificate/certificado.cer',
+  'certificate/private-key.key',
+  'password'
+);
+
+$pfxExporter = new PhpCfdi\Credentials\Pfx\PfxExporter($credential);
+// crea el binary string pfx usando la contraseña dada
+$derPfx = $pfxExporter->export('exportablePfxPassPhrase');
+
+$dirName = 'certificate/certificate.pfx';
+// guarda el archivo pfx a la ruta local dada usando la contraseña dada
+$created = $pfxExporter->exportToFile($dirName, 'exportablePfxPassPhrase');
+```
+
+Para leer el archivo pfx y obtener un objeto `Credential`:
+
+```php
+<?php declare(strict_types=1);
+
+// crea un objeto Credential dado el contenido de un archivo PFX en formato der o pem.
+$credential = PhpCfdi\Credentials\Pfx\PfxReader::create('contenido-del-archivo', 'pfxPassPrhase');
+
+// crea un objeto Credential dada la rutam local de un archivo pfx en formato der o pem.
+$credential = PhpCfdi\Credentials\Pfx\PfxReader::openFile('pfxFilePath', 'pfxPassPrhase');
+```
+
 ## Acerca de los archivos de certificado y llave privada
 
 Los archivos de certificado vienen en formato `X.509 DER` y los de llave privada en formato `PKCS#8 DER`.
