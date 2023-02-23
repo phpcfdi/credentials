@@ -158,7 +158,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/credentials?logo=php
 [badge-release]: https://img.shields.io/github/release/phpcfdi/credentials?logo=git
 [badge-license]: https://img.shields.io/github/license/phpcfdi/credentials?logo=open-source-initiative
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/credentials/build/main?logo=github-actions
+[badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/credentials/build.yml?branch=main&logo=github-actions
 [badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_credentials&metric=reliability_rating
 [badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_credentials&metric=sqale_rating
 [badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_credentials/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
