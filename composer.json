@@ -1,25 +1,25 @@
 {
     "name": "phpcfdi/credentials",
     "description": "Library to use eFirma (fiel) and CSD (sellos) from SAT",
-    "keywords": ["efirma", "fiel", "sat", "cfdi", "sello", "certificado"],
-    "homepage": "https://github.com/phpcfdi/credentials",
     "license": "MIT",
+    "keywords": [
+        "efirma",
+        "fiel",
+        "sat",
+        "cfdi",
+        "sello",
+        "certificado"
+    ],
     "authors": [
         {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com"
         }
     ],
+    "homepage": "https://github.com/phpcfdi/credentials",
     "support": {
-        "source": "https://github.com/phpcfdi/credentials",
-        "issues": "https://github.com/phpcfdi/credentials/issues"
-    },
-    "prefer-stable": true,
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        }
+        "issues": "https://github.com/phpcfdi/credentials/issues",
+        "source": "https://github.com/phpcfdi/credentials"
     },
     "require": {
         "php": ">=7.3",
@@ -31,6 +31,7 @@
         "ext-json": "*",
         "phpunit/phpunit": "^9.5"
     },
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "PhpCfdi\\Credentials\\": "src/"
@@ -41,30 +42,41 @@
             "PhpCfdi\\Credentials\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
     "scripts": {
-        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:check-style",
+            "@dev:test"
+        ],
         "dev:check-style": [
+            "@php tools/composer-normalize normalize --dry-run",
             "@php tools/php-cs-fixer fix --dry-run --verbose",
             "@php tools/phpcs --colors -sp"
         ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html build/coverage/html/"
+        ],
         "dev:fix-style": [
+            "@php tools/composer-normalize normalize",
             "@php tools/php-cs-fixer fix --verbose",
             "@php tools/phpcbf --colors -sp"
         ],
         "dev:test": [
-            "@dev:check-style",
             "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "@php tools/phpstan analyse --no-progress"
-        ],
-        "dev:coverage": [
-            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html build/coverage/html/"
+            "@php tools/phpstan analyse --no-progress --verbose"
         ]
     },
     "scripts-descriptions": {
-        "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
-        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
-        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run dev:check-style, phpunit and phpstan",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
+        "dev:build": "DEV: run dev:fix-style dev:check-style and dev:tests, run before pull request",
+        "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
+        "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
+        "dev:test": "DEV: run phpunit and phpstan"
     }
 }
