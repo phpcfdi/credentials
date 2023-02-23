@@ -7,7 +7,26 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 ## Cambios no liberados en una versión
 
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
-versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
+versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
+
+### Mantenimiento 2023-02-22
+
+Los siguientes cambios son de mantenimiento:
+
+- Se actualiza el año en el archivo de licencia.
+- Se agrega una prueba para comprobar certificados *Teletex*.
+  Ver https://github.com/nodecfdi/credentials/commit/cd8f1827e06a5917c41940e82b8d696379362d5d.
+- Se agrega un archivo de documentación: *Ejemplo de creación de una credencial con verificaciones previas*.
+- Se corrige la insignia de construcción del proyecto `[bagde-build]`.
+- Se sustituye la referencia `[homepage]` a `[project]` en el archivo `CONTRIBUTING.md`.
+- Se actualizan los archivos de configuración de estilo de código.
+- Se actualizan los flujos de trabajo de GitHub:
+  - Los trabajos de PHP se ejecutan en la versión 8.2.
+  - Se actualizan las acciones de GitHub a la versión 3.
+  - Se agrega PHP 8.2 a la matriz de pruebas.
+  - Se cambia la directiva `::set-output` a `$GITHUB_OUTPUT`.
+  - Se corrige el trabajo `phpcs` eliminando las rutas fijas.
+- Se actualizan las versiones de las herramientas de desarrollo.
 
 ## Listado de cambios
 

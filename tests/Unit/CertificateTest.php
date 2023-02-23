@@ -213,4 +213,14 @@ class CertificateTest extends TestCase
             $this->assertStringContainsString('Certificate does not contain a serial number', $exception->getMessage());
         }
     }
+
+    public function testReadCertificateTeletex(): void
+    {
+        /** @see https://github.com/nodecfdi/credentials/commit/cd8f1827e06a5917c41940e82b8d696379362d5d */
+        $teletexCertificate = $this->fileContents('00001000000413053762.cer');
+        $certificate = new Certificate($teletexCertificate);
+
+        $this->assertSame('SMA0112284B2', $certificate->rfc());
+        $this->assertSame('COMPAÑIA SANTA MARIA SA DE CV', $certificate->legalName());
+    }
 }
