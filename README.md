@@ -100,10 +100,10 @@ declare(strict_types=1);
 // creamos el objeto reader
 $reader = new PhpCfdi\Credentials\Pfx\PfxReader();
 
-// crea un objeto Credential dado el contenido de un archivo PFX en formato der o pem y la contraseña del pfx.
+// crea un objeto Credential dado el contenido de un archivo pfx y la contraseña del pfx.
 $credential = $reader->createCredentialFromContents('contenido-del-archivo', 'pfxPassPrhase');
 
-// crea un objeto Credential dada la ruta local de un archivo pfx en formato der o pem y la contraseña del pfx.
+// crea un objeto Credential dada la ruta local de un archivo pfx y la contraseña del pfx.
 $credential = $reader->createCredentialFromFile('pfxFilePath', 'pfxPassPrhase');
 ```
 
