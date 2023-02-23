@@ -47,4 +47,15 @@ class PfxExporterTest extends TestCase
             PfxReader::openFile($name, '')
         );
     }
+
+    public function testGetCredential(): void
+    {
+        $credential = Credential::openFiles(
+            $this->filePath('CSD01_AAA010101AAA/certificate.cer'),
+            $this->filePath('CSD01_AAA010101AAA/private_key_protected.key.pem'),
+            trim($this->fileContents('CSD01_AAA010101AAA/password.txt'))
+        );
+        $pfxExporter = new PfxExporter($credential);
+        $this->assertSame($credential, $pfxExporter->getCredential());
+    }
 }
