@@ -142,7 +142,7 @@ $pfxExporter = new PfxExporter($credential);
 $pfxContents = $pfxExporter->export('pfx-passphrase');
 
 // guarda el archivo pfx a la ruta local dada usando la contraseña dada
-$exported = $pfxExporter->exportToFile('credential.pfx', 'pfx-passphrase');
+$pfxExporter->exportToFile('credential.pfx', 'pfx-passphrase');
 ```
 
 Para leer el archivo PFX y obtener un objeto `Credential`:

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace PhpCfdi\Credentials\Tests\Unit\Pfx;
 
+use PhpCfdi\Credentials\Certificate;
 use PhpCfdi\Credentials\Credential;
 use PhpCfdi\Credentials\Pfx\PfxExporter;
 use PhpCfdi\Credentials\Pfx\PfxReader;
+use PhpCfdi\Credentials\PrivateKey;
 use PhpCfdi\Credentials\Tests\TestCase;
+use RuntimeException;
 
 class PfxExporterTest extends TestCase
 {
@@ -52,9 +55,8 @@ class PfxExporterTest extends TestCase
             $this->fail('Expected to create a temporary file');
         }
 
-        $created = $pfxExporter->exportToFile($temporaryFile, '');
+        $pfxExporter->exportToFile($temporaryFile, '');
 
-        $this->assertTrue($created);
         $reader = new PfxReader();
         $this->assertSame(
             $reader->loadPkcs12($this->fileContents('CSD01_AAA010101AAA/credential_unprotected.pfx')),
@@ -62,14 +64,37 @@ class PfxExporterTest extends TestCase
         );
     }
 
-    public function testExportToFileToInvalidPath(): void
+    public function testExportWithError(): void
+    {
+        // create a credential with an invalid private key to produce error
+        $certificate = Certificate::openFile($this->filePath('CSD01_AAA010101AAA/certificate.cer'));
+        $privateKey = $this->createMock(PrivateKey::class);
+        $privateKey->method('belongsTo')->willReturn(true);
+        $privateKey->method('pem')->willReturn('bar');
+        $privateKey->method('passPhrase')->willReturn('baz');
+        $malformedCredential = new Credential($certificate, $privateKey);
+
+        $pfxExporter = new PfxExporter($malformedCredential);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageMatches(
+            '#^Cannot export credential with certificate 30001000000300023708: #'
+        );
+
+        $pfxExporter->export('');
+    }
+
+    public function testExportToFileWithError(): void
     {
         $credential = $this->createCredential();
         $pfxExporter = new PfxExporter($credential);
         $exportFile = __DIR__ . '/non-existent/path/file.pfx';
-        /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        $result = @$pfxExporter->exportToFile($exportFile, '');
-        $this->assertFalse($result);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageMatches(
+            "#^Cannot export credential with certificate 30001000000300023708 to file $exportFile: #"
+        );
+        $pfxExporter->exportToFile($exportFile, '');
     }
 
     public function testGetCredential(): void
