@@ -9,11 +9,20 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
-### Mantenimiento 2023-02-22
+## Listado de cambios
+
+### Versión 1.2.0 2023-02-24
+
+Se agrega la funcionalidad para exportar (`PfxExporter`) y leer (`PfxReader`) una credencial con formato PKCS#12 (PFX).
+Gracias `@celli33` por tu contribución.
+
+Los siguientes cambios ya estaban incluidos en la rama principal:
+
+#### Mantenimiento 2023-02-22
 
 Los siguientes cambios son de mantenimiento:
 
-- Se actualiza el año en el archivo de licencia.
+- Se actualiza el año en el archivo de licencia. ¡Feliz 2023!
 - Se agrega una prueba para comprobar certificados *Teletex*.
   Ver https://github.com/nodecfdi/credentials/commit/cd8f1827e06a5917c41940e82b8d696379362d5d.
 - Se agrega un archivo de documentación: *Ejemplo de creación de una credencial con verificaciones previas*.
@@ -27,8 +36,6 @@ Los siguientes cambios son de mantenimiento:
   - Se cambia la directiva `::set-output` a `$GITHUB_OUTPUT`.
   - Se corrige el trabajo `phpcs` eliminando las rutas fijas.
 - Se actualizan las versiones de las herramientas de desarrollo.
-
-## Listado de cambios
 
 ### Versión 1.1.4 2022-01-31
 

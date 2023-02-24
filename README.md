@@ -69,7 +69,7 @@ echo $certificado->serialNumber()->bytes(), PHP_EOL; // número de serie del cer
 ## Acerca de los archivos de certificado y llave privada
 
 Los archivos de certificado vienen en formato `X.509 DER` y los de llave privada en formato `PKCS#8 DER`.
-Ambos formatos no se pueden interpretar directamente en PHP (con `ext-openssl`), sin embargo sí lo pueden hacer
+Ambos formatos no se pueden interpretar directamente en PHP (con `ext-openssl`), sin embargo, sí lo pueden hacer
 en el formato compatible [`PEM`](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail).
 
 Esta librería tiene la capacidad de hacer esta conversión internamente (sin `openssl`), pues solo consiste en codificar
@@ -118,6 +118,48 @@ Notas de tratamiento de archivos `DER`:
 
 Para entender más de los formatos de llaves privadas se puede consultar la siguiente liga:
 <https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences>
+
+## Leer y exportar archivos PFX
+
+Esta librería soporta obtener el objeto `Credential` desde un archivo PFX (PKCS #12) y vicerversa.
+
+Para exportar el archivo PFX:
+
+```php
+<?php declare(strict_types=1);
+
+use PhpCfdi\Credentials\Pfx\PfxExporter;
+
+$credential = PhpCfdi\Credentials\Credential::openFiles(
+  'certificate/certificado.cer',
+  'certificate/private-key.key',
+  'password'
+);
+
+$pfxExporter = new PfxExporter($credential);
+
+// crea el binary string usando la contraseña dada
+$pfxContents = $pfxExporter->export('pfx-passphrase');
+
+// guarda el archivo pfx a la ruta local dada usando la contraseña dada
+$pfxExporter->exportToFile('credential.pfx', 'pfx-passphrase');
+```
+
+Para leer el archivo PFX y obtener un objeto `Credential`:
+
+```php
+<?php declare(strict_types=1);
+
+use PhpCfdi\Credentials\Pfx\PfxReader;
+
+$pfxReader = new PfxReader();
+
+// crea un objeto Credential dado el contenido de un archivo pfx
+$credential = $pfxReader->createCredentialFromContents('contenido-del-archivo', 'pfx-passphrase');
+
+// crea un objeto Credential dada la ruta local de un archivo pfx
+$credential = $pfxReader->createCredentialsFromFile('pfxFilePath', 'pfx-passphrase');
+```
 
 ## Compatibilidad
 

@@ -33,11 +33,6 @@ openssl base64 -in data-sha256.bin -out data-sha256.txt
 openssl dgst -sha256 -verify CSD01_AAA010101AAA.cer.pem -signature data-sha256.bin data-to-sign.txt
 ```
 
-
-
-
-
-
 Estos archivos fueron descargados desde
 <http://omawww.sat.gob.mx/informacion_fiscal/factura_electronica/Paginas/certificado_sello_digital.aspx>
 
@@ -54,4 +49,15 @@ Para protegerla con password nuevamente se usó:
 
 ```
 openssl rsa -in aaa010101aaa_FIEL.key.pem -des3 -out aaa010101aaa_FIEL_password.key.pem
+```
+
+Para generar los archivos PFX se usó:
+
+```shell
+# credential_protected.pfx
+openssl pkcs12 -export -in certificate.cer -inkey private_key.key.pem -passin pass:12345678a -out credential_protected.pfx --passout pass:12345678a
+# credential_unprotected.pfx
+openssl pkcs12 -export -in certificate.cer -inkey private_key.key.pem -passin pass:12345678a -out credential_unprotected.pfx --passout pass:
+# ver el contenido de un archivo pfx
+openssl pkcs12 -info -in credential_unprotected.pfx -passin pass: -noenc
 ```
