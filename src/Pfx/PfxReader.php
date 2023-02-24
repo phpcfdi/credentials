@@ -15,7 +15,7 @@ class PfxReader
     public function createCredentialFromContents(string $contents, string $passPhrase): Credential
     {
         if ('' === $contents) {
-            throw new UnexpectedValueException('Create pfx from empty contents');
+            throw new UnexpectedValueException('Cannot create credential from empty PFX contents');
         }
         $pfx = $this->loadPkcs12($contents, $passPhrase);
         $certificatePem = $pfx['cert'];
@@ -34,8 +34,7 @@ class PfxReader
     public function loadPkcs12(string $contents, string $password = ''): array
     {
         $pfx = [];
-        openssl_pkcs12_read($contents, $pfx, $password);
-        if ([] === $pfx) {
+        if (! openssl_pkcs12_read($contents, $pfx, $password)) {
             throw new UnexpectedValueException('Invalid PKCS#12 contents or wrong passphrase');
         }
         return [

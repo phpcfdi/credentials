@@ -11,36 +11,30 @@ use UnexpectedValueException;
 
 class PfxReaderTest extends TestCase
 {
+    private function obtainKnownCredential(): Credential
+    {
+        $reader = new PfxReader();
+        return $reader->createCredentialFromFile(
+            $this->filePath('CSD01_AAA010101AAA/credential_unprotected.pfx'),
+            ''
+        );
+    }
+
     /**
      * @testWith ["CSD01_AAA010101AAA/credential_unprotected.pfx", ""]
      *           ["CSD01_AAA010101AAA/credential_protected.pfx", "CSD01_AAA010101AAA/password.txt"]
      */
-    public function testCreateCredentialFromContents(string $dir, string $passPhrasePath): void
+    public function testCreateCredentialFromFile(string $dir, string $passPhrasePath): void
     {
         $passPhrase = $this->fileContents($passPhrasePath);
         $reader = new PfxReader();
-        $expectedCsd = $reader->createCredentialFromContents(
-            $this->fileContents('CSD01_AAA010101AAA/credential_unprotected.pfx'),
-            ''
-        );
+        $expectedCsd = $this->obtainKnownCredential();
 
-        $csd = $reader->createCredentialFromContents($this->fileContents($dir), $passPhrase);
+        $csd = $reader->createCredentialFromFile($this->filePath($dir), $passPhrase);
 
         $this->assertInstanceOf(Credential::class, $csd);
         $this->assertSame($expectedCsd->certificate()->pem(), $csd->certificate()->pem());
         $this->assertSame($expectedCsd->privateKey()->pem(), $csd->privateKey()->pem());
-    }
-
-    public function testCreateCredentialFromPath(): void
-    {
-        $reader = new PfxReader();
-
-        $csd = $reader->createCredentialFromFile(
-            $this->filePath('CSD01_AAA010101AAA/credential_unprotected.pfx'),
-            ''
-        );
-
-        $this->assertInstanceOf(Credential::class, $csd);
     }
 
     public function testCreateCredentialEmptyContents(): void
@@ -48,7 +42,7 @@ class PfxReaderTest extends TestCase
         $reader = new PfxReader();
 
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Create pfx from empty contents');
+        $this->expectExceptionMessage('Cannot create credential from empty PFX contents');
 
         $reader->createCredentialFromContents('', '');
     }
@@ -70,9 +64,9 @@ class PfxReaderTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid PKCS#12 contents or wrong passphrase');
 
-        $reader->createCredentialFromContents(
-            $this->fileContents('CSD01_AAA010101AAA/credential_protected.pfx'),
-            ''
+        $reader->createCredentialFromFile(
+            $this->filePath('CSD01_AAA010101AAA/credential_protected.pfx'),
+            'wrong-password'
         );
     }
 }
