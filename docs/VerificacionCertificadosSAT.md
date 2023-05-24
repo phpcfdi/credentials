@@ -9,9 +9,9 @@ Al no tener un servicio público de verificación, el SAT comparte sus certifica
 Para ello necesitaremos de `openssl`. El procedimiento general consiste en:
 
 1. Descargar los certificados raíz de producción
-1. Convertir los certificados DER en PEM
-1. Adaptar la carpeta para reconocerla como un directorio de Certificate Authority (CA)
-1. Comparar el certificado PEM contra los certificados raíz.
+2. Convertir los certificados DER en PEM
+3. Adaptar la carpeta para reconocerla como un directorio de Certificate Authority (CA)
+4. Comparar el certificado PEM contra los certificados raíz.
 
 Lo mejor sería que el SAT tuviera un servicio público de consulta de certificados, incluso saber si un
 certificado ha sido revocado, el problema es que sí tienen el servicio, pero está restringido a agencias
