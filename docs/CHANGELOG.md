@@ -11,6 +11,15 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 1.2.1 2023-05-24
+
+PHPStan detectó un uso inapropiado de conversión de objeto a cadena de caracteres.
+Esta conversión es innecesaria, por lo que se eliminó.
+
+Se agregó información básica de cómo verificar un certificado emitido por el SAT usando OCSP.
+
+Se actualizaron las herramientas de desarrollo.
+
 ### Versión 1.2.0 2023-02-24
 
 Se agrega la funcionalidad para exportar (`PfxExporter`) y leer (`PfxReader`) una credencial con formato PKCS#12 (PFX).
