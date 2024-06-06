@@ -10,30 +10,36 @@ use Throwable;
 require __DIR__ . '/../../vendor/autoload.php';
 
 exit(call_user_func(
-    function ($cmd, $cerFile): int {
+    function (string $cmd, string $cerFile): int {
+        if (in_array($cerFile, ['-h', '--help'], true)) {
+            echo 'Show certificate information', PHP_EOL;
+            echo "Syntax: $cmd certificate-file", PHP_EOL;
+            return 0;
+        }
         try {
-            if (in_array($cerFile, ['-h', '--help', ''], true)) {
-                echo 'Show certificate information', PHP_EOL;
-                echo "Syntax: $cmd certificate-file", PHP_EOL;
-                if ('' === $cerFile) {
-                    throw new Exception('No certificate file was set');
-                }
-                return 0;
+            if ('' === $cerFile) {
+                throw new Exception('No certificate file was set');
             }
             $certificate = Certificate::openFile($cerFile);
+            $serialNumber = $certificate->serialNumber();
             echo json_encode([
                 'file' => $cerFile,
                 'rfc' => $certificate->rfc(),
-                'serial' => $certificate->serialNumber()->bytes(),
+                'serial' => [
+                    'hexadecimal' => $serialNumber->hexadecimal(),
+                    'decimal' => $serialNumber->decimal(),
+                    'bytes' => $serialNumber->bytesArePrintable() ? $serialNumber->bytes() : '',
+                ],
                 'valid since' => $certificate->validFromDateTime()->format('c'),
                 'valid until' => $certificate->validToDateTime()->format('c'),
                 'legalname' => $certificate->legalName(),
                 'satType' => $certificate->satType()->value(),
                 'parsed' => $certificate->parsed(),
-            ], JSON_PRETTY_PRINT), PHP_EOL;
+            ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT), PHP_EOL;
             return 0;
         } catch (Throwable $exception) {
             file_put_contents('php://stderr', 'ERROR: ' . $exception->getMessage() . PHP_EOL, FILE_APPEND);
+            // file_put_contents('php://stderr', print_r($exception, true) . PHP_EOL, FILE_APPEND);
             return 1;
         }
     },
