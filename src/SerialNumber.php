@@ -71,4 +71,9 @@ class SerialNumber
     {
         return BaseConverter::createBase36()->convert($this->hexadecimal(), 16, 10);
     }
+
+    public function bytesArePrintable(): bool
+    {
+        return (bool) preg_match('/^[[:print:]]*$/', $this->bytes());
+    }
 }
