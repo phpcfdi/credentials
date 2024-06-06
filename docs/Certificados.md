@@ -11,6 +11,3 @@ Los certificados están vinculados con un creador, llamado emisor o entidad cert
 Con un certificado se pueden realizar pocas acciones, en específico:
 - extraer información de quien esté relacionado con el certificado
 - obtener la llave pública (para poder verificar un mensaje)
-
- 
-
