@@ -63,4 +63,28 @@ class SerialNumberTest extends TestCase
         $serial = SerialNumber::createFromBytes(self::SERIAL_BYTES);
         $this->assertSame(self::SERIAL_HEXADECIMAL, $serial->hexadecimal());
     }
+
+    /** @return array<string, array{string, string, string, bool}> */
+    public function providerSerialNumbersNotIssuedFromSat(): array
+    {
+        return [
+            'Mifiel pruebas' => ['272B', '10027', "'+"],
+            'SN Letsencrypt' => [
+                '045E9B96CBBA0057885950B3B59A5B2B98FB',
+                '380642499533550337925875167187989405866235',
+                (string) hex2bin('045E9B96CBBA0057885950B3B59A5B2B98FB'),
+            ],
+        ];
+    }
+
+    /** @dataProvider providerSerialNumbersNotIssuedFromSat */
+    public function testSerialNumbersNotIssuedFromSat(
+        string $hexadecimalInput,
+        string $expectedDecimal,
+        string $expectedBytes
+    ): void {
+        $serial = SerialNumber::createFromHexadecimal($hexadecimalInput);
+        $this->assertSame($expectedDecimal, $serial->decimal());
+        $this->assertSame($expectedBytes, $serial->bytes());
+    }
 }

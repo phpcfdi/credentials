@@ -27,7 +27,7 @@ class BaseConverter
 
     public static function createBase36(): self
     {
-        return new self(new BaseConverterSequence('0123456789abcdefghijklmnopqrstuvwxyz'));
+        return new self(new BaseConverterSequence('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'));
     }
 
     public function sequence(): BaseConverterSequence

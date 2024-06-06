@@ -25,7 +25,8 @@ class SerialNumber
         if (0 === strcasecmp('0x', substr($hexadecimal, 0, 2))) {
             $hexadecimal = substr($hexadecimal, 2);
         }
-        if (! boolval(preg_match('/^[0-9a-f]*$/', $hexadecimal))) {
+        $hexadecimal = strtoupper($hexadecimal);
+        if (! preg_match('/^[0-9A-F]*$/', $hexadecimal)) {
             throw new UnexpectedValueException('The hexadecimal string contains invalid characters');
         }
         $this->hexadecimal = $hexadecimal;
