@@ -53,7 +53,7 @@ class PublicKey extends Key
                     /** @codeCoverageIgnore Don't know how make openssl_verify returns -1 */
                     throw new RuntimeException('Verify error: ' . openssl_error_string());
                 }
-                return (1 === $verify);
+                return 1 === $verify;
             }
         );
     }

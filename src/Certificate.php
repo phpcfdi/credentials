@@ -235,7 +235,7 @@ class Certificate
         if (null === $datetime) {
             $datetime = new DateTimeImmutable();
         }
-        return ($datetime >= $this->validFromDateTime() && $datetime <= $this->validToDateTime());
+        return $datetime >= $this->validFromDateTime() && $datetime <= $this->validToDateTime();
     }
 
     protected function createSerialNumber(string $hexadecimal, string $decimal): SerialNumber

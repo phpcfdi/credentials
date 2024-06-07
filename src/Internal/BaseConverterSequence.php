@@ -63,7 +63,7 @@ class BaseConverterSequence
 
         $valuesCount = array_count_values(str_split(strtoupper($sequence)));
         $repeated = array_filter($valuesCount, function (int $count) {
-            return (1 !== $count);
+            return 1 !== $count;
         });
         if ([] !== $repeated) {
             throw new UnexpectedValueException(

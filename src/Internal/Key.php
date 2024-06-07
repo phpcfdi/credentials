@@ -54,6 +54,6 @@ class Key
      */
     public function isType(int $type): bool
     {
-        return ($this->type()->index() === $type);
+        return $this->type()->index() === $type;
     }
 }
