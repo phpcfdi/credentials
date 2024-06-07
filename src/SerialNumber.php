@@ -25,7 +25,8 @@ class SerialNumber
         if (0 === strcasecmp('0x', substr($hexadecimal, 0, 2))) {
             $hexadecimal = substr($hexadecimal, 2);
         }
-        if (! boolval(preg_match('/^[0-9a-f]*$/', $hexadecimal))) {
+        $hexadecimal = strtoupper($hexadecimal);
+        if (! preg_match('/^[0-9A-F]*$/', $hexadecimal)) {
             throw new UnexpectedValueException('The hexadecimal string contains invalid characters');
         }
         $this->hexadecimal = $hexadecimal;
@@ -44,14 +45,7 @@ class SerialNumber
 
     public static function createFromBytes(string $input): self
     {
-        /** @noinspection PhpRedundantOptionalArgumentInspection */
-        $hexadecimal = implode('', array_map(
-            function (string $value): string {
-                return dechex(ord($value));
-            },
-            str_split($input, 1)
-        ));
-        return new self($hexadecimal);
+        return new self(bin2hex($input));
     }
 
     public function hexadecimal(): string
@@ -61,13 +55,16 @@ class SerialNumber
 
     public function bytes(): string
     {
-        return implode('', array_map(function (string $value): string {
-            return chr(intval(hexdec($value)));
-        }, str_split($this->hexadecimal, 2)));
+        return (string) hex2bin($this->hexadecimal);
     }
 
     public function decimal(): string
     {
         return BaseConverter::createBase36()->convert($this->hexadecimal(), 16, 10);
+    }
+
+    public function bytesArePrintable(): bool
+    {
+        return (bool) preg_match('/^[[:print:]]*$/', $this->bytes());
     }
 }

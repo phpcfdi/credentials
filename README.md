@@ -119,6 +119,31 @@ Notas de tratamiento de archivos `DER`:
 Para entender más de los formatos de llaves privadas se puede consultar la siguiente liga:
 <https://github.com/kjur/jsrsasign/wiki/Tutorial-for-PKCS5-and-PKCS8-PEM-private-key-formats-differences>
 
+## Acerca de los números de serie
+
+Los certificados contienen un número de serie expresado en notación hexadecimal, por ejemplo, el número
+de serie `27 2B` se refiere al certificado número `10027` expresado en decimal.
+
+Para el SAT, sin embargo, se reconoce el número de serie no como el estándar en hexadecimal.
+El SAT pide que el número de serie reflejado sea **la expresión hexadecimal convertida a ASCII**.
+Luego entonces, el certificado con número de serie `3330303031303030303030333030303233373038`
+lo identifica como `30001000000300023708`.
+
+Esta práctica del SAT no es estándar, y no es comúnmente observada. Sin embargo, así ha decidido que se
+interpreten el dato de "número de serie" referido en sus certificados emitidos, por ejemplo en el atributo
+`Comprobante@NoCertificado`.
+
+Como ejemplo contrario: En el firmado de documentos XML utilizado en el servicio web de descarga masiva,
+sí se utiliza la notación decimal (el número hexadecimal convertido a decimal), en lugar de la notación de bytes.
+
+La notación de bytes es problemática porque no todos los caracteres son imprimibles o
+cuentan una representación gráfica. La notación hexadecimal es ligeramente problemática
+porque tiene muchas variantes como el uso de mayúsculas y minúsculas o el prefijo `0x`.
+La notación decimal no tiene problema, se trata simplemente de un entero muy grande,
+tan grande que debe tratarse como una cadena de caracteres.
+
+Espero que en algún futuro el SAT reconsidere y utilice una notación decimal, para referirnos al número de serie.
+
 ## Leer y exportar archivos PFX
 
 Esta librería soporta obtener el objeto `Credential` desde un archivo PFX (PKCS #12) y vicerversa.
