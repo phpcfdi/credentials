@@ -11,6 +11,37 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 1.2.2 2024-06-06
+
+Se corrigió el problema de no crear correctamente el número de serie cuando incluía caracteres en mayúsculas.
+Anteriormente, se hacía una conversión a minúsculas, ahora se expresa en mayúsculas.
+
+Se agrega el método `SerialNumber::bytesArePrintable(): bool` para identificar que el número de serie de un certificado
+contiene solamente caracteres imprimibles en su representación como *bytes*, como en el caso de los números de serie
+utilizados por el SAT.
+
+Se refactorizan los métodos `SerialNumber::createFromBytes()` y `SerialNumber::bytes()` para usar las funciones
+de PHP `bin2hex` y `hex2bin` respectivamente.
+
+Se agrega documentación en el archivo `README.md` explicando la interpretación del número de serie como hexadecimal,
+decimal y *bytes*. Así como el uso específico del SAT.
+
+Se actualiza el año de licencia a 2024.
+
+Se garantiza la compatibilidad con PHP 8.3.
+
+Adicionalmente, se hacen los siguientes cambios internos:
+
+- Se remueven los archivos `test/_files` de la detección de lenguaje de GitHub.
+- En los flujos de trabajo de GitHub.
+  - Se permite la ejecución manual.
+  - Se agrega PHP 8.3 a la matriz de pruebas.
+  - Se ejecutan los trabajos en PHP 8.3.
+  - Se actualizan las acciones de GitHub a la versión 4.
+  - En el trabajo `php-cs-fixer` se remueve la variable de entorno `PHP_CS_FIXER_IGNORE_ENV`.
+- Se corrige `.php-cs-fixer.dist.php` sustituyendo `function_typehint_space` por `type_declaration_spaces`. 
+- Se actualizan las herramientas de desarrollo.
+
 ### Versión 1.2.1 2023-05-24
 
 PHPStan detectó un uso inapropiado de conversión de objeto a cadena de caracteres.
