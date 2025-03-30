@@ -10,8 +10,6 @@ use PhpCfdi\Credentials\Tests\TestCase;
 class Rfc4514Test extends TestCase
 {
     /**
-     * @param string $subject
-     * @param string $expected
      * @dataProvider providerEscape
      */
     public function testEscape(string $subject, string $expected): void

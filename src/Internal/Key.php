@@ -50,7 +50,6 @@ class Key
 
     /**
      * @param int $type one of OPENSSL_KEYTYPE_RSA, OPENSSL_KEYTYPE_DSA, OPENSSL_KEYTYPE_DH, OPENSSL_KEYTYPE_EC
-     * @return bool
      */
     public function isType(int $type): bool
     {

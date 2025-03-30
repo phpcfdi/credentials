@@ -59,7 +59,6 @@ class Certificate
      * Convert X.509 DER base64 or X.509 DER to X.509 PEM
      *
      * @param string $contents can be a certificate format X.509 DER or X.509 DER base64
-     * @return string
      */
     public static function convertDerToPem(string $contents): string
     {
@@ -77,7 +76,6 @@ class Certificate
      * The content file can be a certificate format X.509 PEM, X.509 DER or X.509 DER base64
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
-     * @return Certificate
      */
     public static function openFile(string $filename): self
     {

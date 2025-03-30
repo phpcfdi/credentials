@@ -17,8 +17,6 @@ class Credential
     /**
      * Credential constructor
      *
-     * @param Certificate $certificate
-     * @param PrivateKey $privateKey
      * @throws UnexpectedValueException Certificate does not belong to private key
      */
     public function __construct(Certificate $certificate, PrivateKey $privateKey)
@@ -35,11 +33,6 @@ class Credential
      *
      * The certificate content can be X.509 PEM, X.509 DER or X.509 DER base64
      * The private key content can be PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
-     *
-     * @param string $certificateContents
-     * @param string $privateKeyContents
-     * @param string $passPhrase
-     * @return self
      */
     public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
     {
@@ -54,11 +47,6 @@ class Credential
      * File paths must be local, can have no schema or file:// schema
      * The certificate file content can be X.509 PEM, X.509 DER or X.509 DER base64
      * The private key file content can be PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
-     *
-     * @param string $certificateFile
-     * @param string $privateKeyFile
-     * @param string $passPhrase
-     * @return self
      */
     public static function openFiles(string $certificateFile, string $privateKeyFile, string $passPhrase): self
     {

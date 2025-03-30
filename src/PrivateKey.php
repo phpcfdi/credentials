@@ -59,8 +59,6 @@ class PrivateKey extends Key
      * Convert PKCS#8 DER to PKCS#8 PEM
      *
      * @param string $contents can be a PKCS#8 DER
-     * @param bool $isEncrypted
-     * @return string
      */
     public static function convertDerToPem(string $contents, bool $isEncrypted): string
     {
@@ -75,8 +73,6 @@ class PrivateKey extends Key
      * The content file can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
-     * @param string $passPhrase
-     * @return self
      */
     public static function openFile(string $filename, string $passPhrase): self
     {
@@ -120,11 +116,7 @@ class PrivateKey extends Key
     /**
      * This method id created to wrap and mock openssl_sign
      *
-     * @param string $data
-     * @param string|null $signature
      * @param OpenSSLAsymmetricKey $privateKey
-     * @param int $algorithm
-     * @return bool
      * @internal
      */
     protected function openSslSign(string $data, ?string &$signature, $privateKey, int $algorithm): bool
@@ -174,7 +166,6 @@ class PrivateKey extends Key
      * Export the current private key to a new private key with a different password
      *
      * @param string $newPassPhrase If empty the new private key will be unencrypted
-     * @return self
      */
     public function changePassPhrase(string $newPassPhrase): self
     {

@@ -62,7 +62,6 @@ class LocalFileOpenTraitTest extends TestCase
     /**
      * This test ensures that the correct exception is thrown
      *
-     * @param string $filename
      * @testWith ["c:/certs/file.txt"]
      *           ["file://c:/certs/file.txt"]
      *           ["c:\\certs\\file.txt"]

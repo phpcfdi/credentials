@@ -80,8 +80,6 @@ class PemExtractor
      * This won't alter CR that are not at EOL.
      * This won't alter LF+CR used in old Mac style
      *
-     * @param string $content
-     * @return string
      * @internal
      */
     protected function normalizeLineEndings(string $content): string

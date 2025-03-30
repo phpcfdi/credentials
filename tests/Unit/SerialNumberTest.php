@@ -17,7 +17,6 @@ class SerialNumberTest extends TestCase
     public const SERIAL_DECIMAL = '292233162870206001759766198425879490508935868472';
 
     /**
-     * @param string $prefix
      * @testWith [""]
      *           ["0X"]
      *           ["0x"]

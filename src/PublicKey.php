@@ -36,11 +36,7 @@ class PublicKey extends Key
     /**
      * Verify the signature of some data
      *
-     * @param string $data
-     * @param string $signature
-     * @param int $algorithm
      *
-     * @return bool
      *
      * @throws RuntimeException when openssl report an error on verify
      */
@@ -61,11 +57,7 @@ class PublicKey extends Key
     /**
      * This method id created to wrap and mock openssl_verify
      *
-     * @param string $data
-     * @param string $signature
      * @param OpenSSLAsymmetricKey $publicKey
-     * @param int $algorithm
-     * @return int
      */
     protected function openSslVerify(string $data, string $signature, $publicKey, int $algorithm): int
     {
@@ -91,7 +83,6 @@ class PublicKey extends Key
     /**
      * @template T
      * @param Closure(OpenSSLAsymmetricKey): T $function
-     * @param string $publicKeyContents
      * @return T
      * @throws RuntimeException when Cannot open public key
      */

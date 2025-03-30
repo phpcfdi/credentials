@@ -29,7 +29,6 @@ class BaseConverterTest extends TestCase
     }
 
     /**
-     * @param int $base
      * @testWith [-1]
      *           [0]
      *           [1]
@@ -45,7 +44,6 @@ class BaseConverterTest extends TestCase
     }
 
     /**
-     * @param int $base
      * @testWith [-1]
      *           [0]
      *           [1]

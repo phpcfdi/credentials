@@ -44,7 +44,6 @@ class Rfc4514
 
     /**
      * @param array<string, string> $values
-     * @return string
      */
     public function escapeArray(array $values): string
     {
