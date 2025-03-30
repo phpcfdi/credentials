@@ -15,7 +15,7 @@ use UnexpectedValueException;
 class SerialNumber
 {
     /** @var string Hexadecimal representation */
-    private $hexadecimal;
+    private string $hexadecimal;
 
     public function __construct(string $hexadecimal)
     {

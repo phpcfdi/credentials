@@ -6,8 +6,7 @@ namespace PhpCfdi\Credentials;
 
 class PemExtractor
 {
-    /** @var string */
-    private $contents;
+    private string $contents;
 
     public function __construct(string $contents)
     {

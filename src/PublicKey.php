@@ -19,10 +19,9 @@ class PublicKey extends Key
     public function __construct(string $source)
     {
         $dataArray = $this->callOnPublicKeyWithContents(
-            function ($publicKey): array {
+            fn ($publicKey): array =>
                 // no need to verify that openssl_pkey_get_details returns false since it is already open
-                return openssl_pkey_get_details($publicKey) ?: [];
-            },
+                openssl_pkey_get_details($publicKey) ?: [],
             $source
         );
         parent::__construct($dataArray);

@@ -48,9 +48,7 @@ class Rfc4514
     public function escapeArray(array $values): string
     {
         return implode(',', array_map(
-            function (string $name, string $value): string {
-                return $this->escape($name) . '=' . $this->escape($value);
-            },
+            fn (string $name, string $value): string => $this->escape($name) . '=' . $this->escape($value),
             array_keys($values),
             $values
         ));

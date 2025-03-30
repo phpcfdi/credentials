@@ -23,7 +23,7 @@
         "source": "https://github.com/phpcfdi/credentials"
     },
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "eclipxe/enum": "^0.2.7"

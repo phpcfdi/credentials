@@ -9,11 +9,9 @@ use UnexpectedValueException;
 /** @internal  */
 class BaseConverterSequence
 {
-    /** @var string */
-    private $sequence;
+    private string $sequence;
 
-    /** @var int */
-    private $length;
+    private int $length;
 
     public function __construct(string $sequence)
     {
@@ -62,9 +60,7 @@ class BaseConverterSequence
         }
 
         $valuesCount = array_count_values(str_split(strtoupper($sequence)));
-        $repeated = array_filter($valuesCount, function (int $count): bool {
-            return 1 !== $count;
-        });
+        $repeated = array_filter($valuesCount, fn (int $count): bool => 1 !== $count);
         if ([] !== $repeated) {
             throw new UnexpectedValueException(
                 sprintf('The sequence has not unique values: "%s"', implode(', ', array_keys($repeated)))

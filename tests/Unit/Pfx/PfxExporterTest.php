@@ -14,8 +14,7 @@ use RuntimeException;
 
 class PfxExporterTest extends TestCase
 {
-    /** @var string */
-    private $credentialPassphrase;
+    private string $credentialPassphrase;
 
     protected function setUp(): void
     {

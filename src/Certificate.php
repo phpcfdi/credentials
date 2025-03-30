@@ -16,19 +16,19 @@ class Certificate
     use LocalFileOpenTrait;
 
     /** @var string PEM contents including headers */
-    private $pem;
+    private string $pem;
 
     /** @var string RFC as parsed from subject/x500UniqueIdentifier */
-    private $rfc;
+    private string $rfc;
 
     /** @var string Legal name as parsed from subject/x500UniqueIdentifier */
-    private $legalName;
+    private string $legalName;
 
     /** @var SerialNumber|null Parsed serial number */
-    private $serialNumber;
+    private ?SerialNumber $serialNumber = null;
 
     /** @var PublicKey|null Parsed public key */
-    private $publicKey;
+    private ?PublicKey $publicKey = null;
 
     /**
      * Certificate constructor

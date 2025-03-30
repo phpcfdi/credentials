@@ -9,8 +9,7 @@ class Key
 {
     use DataArrayTrait;
 
-    /** @var OpenSslKeyTypeEnum|null */
-    private $type;
+    private ?OpenSslKeyTypeEnum $type = null;
 
     /** @param array<mixed> $dataArray */
     public function __construct(array $dataArray)

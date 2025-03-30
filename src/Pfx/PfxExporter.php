@@ -12,8 +12,7 @@ class PfxExporter
 {
     use LocalFileOpenTrait;
 
-    /** @var Credential $credential */
-    private $credential;
+    private Credential $credential;
 
     public function __construct(Credential $credential)
     {

@@ -18,13 +18,12 @@ class PrivateKey extends Key
     use LocalFileOpenTrait;
 
     /** @var string PEM contents of private key */
-    private $pem;
+    private string $pem;
 
-    /** @var string */
-    private $passPhrase;
+    private string $passPhrase;
 
     /** @var PublicKey|null public key extracted from private key */
-    private $publicKey;
+    private ?PublicKey $publicKey = null;
 
     /**
      * PrivateKey constructor
@@ -47,10 +46,9 @@ class PrivateKey extends Key
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
         $dataArray = $this->callOnPrivateKey(
-            function ($privateKey): array {
+            fn ($privateKey): array =>
                 // no need to verify that openssl_pkey_get_details returns false since it is already open
-                return openssl_pkey_get_details($privateKey) ?: [];
-            }
+                openssl_pkey_get_details($privateKey) ?: []
         );
         parent::__construct($dataArray);
     }
@@ -132,9 +130,7 @@ class PrivateKey extends Key
     public function belongsToPEMCertificate(string $certificate): bool
     {
         return $this->callOnPrivateKey(
-            function ($privateKey) use ($certificate): bool {
-                return openssl_x509_check_private_key($certificate, $privateKey);
-            }
+            fn ($privateKey): bool => openssl_x509_check_private_key($certificate, $privateKey)
         );
     }
 
