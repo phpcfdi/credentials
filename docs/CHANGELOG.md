@@ -11,6 +11,23 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 1.2.3 2025-03-30
+
+Se corrigieron los problemas asociados a la compatibilidad de PHP 8.4.
+
+- Se agregó explícitamente el operador de tipos *nullable* `?`.
+- Se actualizó la dependencia `eclipxe/enum` a una versión compatible con PHP 8.4.
+
+Se actualiza el año de licencia a 2025.
+
+Se hicieron cambios menores al código sugeridos por PHPStan y PSalm.
+
+Adicionalmente, se hacen los siguientes cambios internos:
+
+- Se agrega PHP 8.4 a la matriz de pruebas del flujo de trabajo `build`.
+- Se ejecuta la mayoría de los trabajos de los flujos de trabajo usando PHP 8.4.
+- Se actualizan las herramientas de desarrollo.
+
 ### Versión 1.2.2 2024-06-06
 
 Se corrigió el problema de no crear correctamente el número de serie cuando incluía caracteres en mayúsculas.
