@@ -38,7 +38,7 @@ class Rfc4514Test extends TestCase
     }
 
     /** @return array<string, array<string>> */
-    public function providerEscape(): array
+    public static function providerEscape(): array
     {
         return [
             'normal' => ['foo bar', 'foo bar'],

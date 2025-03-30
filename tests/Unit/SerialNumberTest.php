@@ -65,7 +65,7 @@ class SerialNumberTest extends TestCase
     }
 
     /** @return array<string, array{string, string, string, bool}> */
-    public function providerSerialNumbersNotIssuedFromSat(): array
+    public static function providerSerialNumbersNotIssuedFromSat(): array
     {
         return [
             'Mifiel pruebas' => ['272B', '10027', "'+", true],
