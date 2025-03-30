@@ -11,8 +11,6 @@ use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 use UnexpectedValueException;
 
-use const PHP_VERSION_ID;
-
 class PrivateKey extends Key
 {
     use LocalFileOpenTrait;
@@ -147,15 +145,7 @@ class PrivateKey extends Key
         if (false === $privateKey) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
-        try {
-            return $function($privateKey);
-        } finally {
-            if (PHP_VERSION_ID < 80000) {
-                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
-                openssl_free_key($privateKey);
-                // phpcs:enable
-            }
-        }
+        return $function($privateKey);
     }
 
     /**

@@ -10,8 +10,6 @@ use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 
-use const PHP_VERSION_ID;
-
 class PublicKey extends Key
 {
     use LocalFileOpenTrait;
@@ -92,14 +90,6 @@ class PublicKey extends Key
         if (false === $pubKey) {
             throw new RuntimeException('Cannot open public key: ' . openssl_error_string());
         }
-        try {
-            return $function($pubKey);
-        } finally {
-            if (PHP_VERSION_ID < 80000) {
-                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
-                openssl_free_key($pubKey);
-                // phpcs:enable
-            }
-        }
+        return $function($pubKey);
     }
 }

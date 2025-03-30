@@ -17,11 +17,8 @@ use UnexpectedValueException;
  */
 class BaseConverter
 {
-    private BaseConverterSequence $sequence;
-
-    public function __construct(BaseConverterSequence $sequence)
+    public function __construct(private BaseConverterSequence $sequence)
     {
-        $this->sequence = $sequence;
     }
 
     public static function createBase36(): self

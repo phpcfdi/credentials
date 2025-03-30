@@ -7,7 +7,7 @@ namespace PhpCfdi\Credentials\Internal;
 use UnexpectedValueException;
 
 /** @internal  */
-class BaseConverterSequence
+class BaseConverterSequence implements \Stringable
 {
     private string $sequence;
 
@@ -41,7 +41,7 @@ class BaseConverterSequence
         try {
             static::checkIsValid($value);
             return true;
-        } catch (UnexpectedValueException $exception) {
+        } catch (UnexpectedValueException) {
             return false;
         }
     }
