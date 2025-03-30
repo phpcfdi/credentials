@@ -55,7 +55,7 @@ trait DataArrayTrait
         $array = [];
         foreach ($this->extractArray($key) as $name => $value) {
             if (is_scalar($value)) {
-                $array[$name] = strval($value);
+                $array[(string) $name] = strval($value);
             }
         }
         return $array;

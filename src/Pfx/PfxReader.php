@@ -37,9 +37,15 @@ class PfxReader
         if (! openssl_pkcs12_read($contents, $pfx, $password)) {
             throw new UnexpectedValueException('Invalid PKCS#12 contents or wrong passphrase');
         }
+        $certificate = '';
+        $privateKey = '';
+        if (is_array($pfx)) {
+            $certificate = $pfx['cert'] ?? null;
+            $privateKey = $pfx['pkey'] ?? null;
+        }
         return [
-            'cert' => $pfx['cert'] ?? '',
-            'pkey' => $pfx['pkey'] ?? '',
+            'cert' => is_string($certificate) ? $certificate : '',
+            'pkey' => is_string($privateKey) ? $privateKey : '',
         ];
     }
 }

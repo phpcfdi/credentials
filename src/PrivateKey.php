@@ -129,7 +129,7 @@ class PrivateKey extends Key
      */
     protected function openSslSign(string $data, ?string &$signature, $privateKey, int $algorithm): bool
     {
-        return openssl_sign($data, $signature, $privateKey, $algorithm);
+        return openssl_sign($data, $signature, $privateKey, $algorithm); // @phpstan-ignore parameterByRef.type
     }
 
     public function belongsTo(Certificate $certificate): bool
@@ -184,11 +184,14 @@ class PrivateKey extends Key
                     'private_key_bits' => $this->publicKey()->numberOfBits(),
                     'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
                 ];
+                // @codeCoverageIgnoreStart
                 if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
-                    // @codeCoverageIgnoreStart
                     throw new RuntimeException('Cannot export the private KEY to change password');
-                    // @codeCoverageIgnoreEnd
                 }
+                if (! is_string($exported) || '' === $exported) {
+                    throw new RuntimeException('Exported KEY has not a valid content');
+                }
+                // @codeCoverageIgnoreEnd
                 return $exported;
             }
         );

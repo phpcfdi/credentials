@@ -35,7 +35,7 @@ class PfxExporter
             [$this->credential->privateKey()->pem(), $this->credential->privateKey()->passPhrase()],
             $passPhrase,
         );
-        if (! $success) {
+        if (! $success || ! is_string($pfxContents)) {
             throw $this->exceptionFromLastError(sprintf(
                 'Cannot export credential with certificate %s',
                 $this->credential->certificate()->serialNumber()->bytes()
