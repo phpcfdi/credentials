@@ -18,7 +18,7 @@ class PublicKey extends Key
 
     public function __construct(string $source)
     {
-        $dataArray = self::callOnPublicKeyWithContents(
+        $dataArray = $this->callOnPublicKeyWithContents(
             function ($publicKey): array {
                 // no need to verify that openssl_pkey_get_details returns false since it is already open
                 return openssl_pkey_get_details($publicKey) ?: [];
@@ -86,7 +86,7 @@ class PublicKey extends Key
      * @return T
      * @throws RuntimeException when Cannot open public key
      */
-    private static function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
+    private function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
     {
         /** @var false|OpenSSLAsymmetricKey $pubKey */
         $pubKey = openssl_get_publickey($publicKeyContents);
