@@ -230,7 +230,7 @@ class Certificate
         return SatTypeEnum::csd();
     }
 
-    public function validOn(DateTimeImmutable $datetime = null): bool
+    public function validOn(?DateTimeImmutable $datetime = null): bool
     {
         if (null === $datetime) {
             $datetime = new DateTimeImmutable();
