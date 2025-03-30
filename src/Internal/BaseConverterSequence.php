@@ -9,9 +9,9 @@ use UnexpectedValueException;
 /** @internal  */
 class BaseConverterSequence implements \Stringable
 {
-    private string $sequence;
+    private readonly string $sequence;
 
-    private int $length;
+    private readonly int $length;
 
     public function __construct(string $sequence)
     {

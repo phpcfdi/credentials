@@ -14,22 +14,21 @@ use UnexpectedValueException;
  */
 class SerialNumber
 {
-    /** @var string Hexadecimal representation */
-    private string $hexadecimal;
-
-    public function __construct(string $hexadecimal)
+    /**
+     * @param string $hexadecimal Hexadecimal representation
+     */
+    public function __construct(private string $hexadecimal)
     {
-        if ('' === $hexadecimal) {
+        if ('' === $this->hexadecimal) {
             throw new UnexpectedValueException('The hexadecimal string is empty');
         }
-        if (0 === strcasecmp('0x', substr($hexadecimal, 0, 2))) {
-            $hexadecimal = substr($hexadecimal, 2);
+        if (0 === strcasecmp('0x', substr($this->hexadecimal, 0, 2))) {
+            $this->hexadecimal = substr($this->hexadecimal, 2);
         }
-        $hexadecimal = strtoupper($hexadecimal);
-        if (! preg_match('/^[0-9A-F]*$/', $hexadecimal)) {
+        $this->hexadecimal = strtoupper($this->hexadecimal);
+        if (! preg_match('/^[0-9A-F]*$/', $this->hexadecimal)) {
             throw new UnexpectedValueException('The hexadecimal string contains invalid characters');
         }
-        $this->hexadecimal = $hexadecimal;
     }
 
     public static function createFromHexadecimal(string $hexadecimal): self

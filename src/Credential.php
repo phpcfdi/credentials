@@ -8,9 +8,9 @@ use UnexpectedValueException;
 
 class Credential
 {
-    private Certificate $certificate;
+    private readonly Certificate $certificate;
 
-    private PrivateKey $privateKey;
+    private readonly PrivateKey $privateKey;
 
     /**
      * Credential constructor
