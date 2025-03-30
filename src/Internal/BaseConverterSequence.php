@@ -62,7 +62,7 @@ class BaseConverterSequence
         }
 
         $valuesCount = array_count_values(str_split(strtoupper($sequence)));
-        $repeated = array_filter($valuesCount, function (int $count) {
+        $repeated = array_filter($valuesCount, function (int $count): bool {
             return 1 !== $count;
         });
         if ([] !== $repeated) {
