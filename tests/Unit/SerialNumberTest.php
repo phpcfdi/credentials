@@ -17,7 +17,6 @@ class SerialNumberTest extends TestCase
     public const SERIAL_DECIMAL = '292233162870206001759766198425879490508935868472';
 
     /**
-     * @param string $prefix
      * @testWith [""]
      *           ["0X"]
      *           ["0x"]
@@ -66,7 +65,7 @@ class SerialNumberTest extends TestCase
     }
 
     /** @return array<string, array{string, string, string, bool}> */
-    public function providerSerialNumbersNotIssuedFromSat(): array
+    public static function providerSerialNumbersNotIssuedFromSat(): array
     {
         return [
             'Mifiel pruebas' => ['272B', '10027', "'+", true],

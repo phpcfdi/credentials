@@ -17,12 +17,8 @@ use UnexpectedValueException;
  */
 class BaseConverter
 {
-    /** @var BaseConverterSequence */
-    private $sequence;
-
-    public function __construct(BaseConverterSequence $sequence)
+    public function __construct(private readonly BaseConverterSequence $sequence)
     {
-        $this->sequence = $sequence;
     }
 
     public static function createBase36(): self
@@ -54,7 +50,7 @@ class BaseConverter
             $input = $originalSequence[0]; // use zero as input
         }
         $chars = substr($originalSequence, 0, $frombase);
-        if (! boolval(preg_match("/^[$chars]+$/", $input))) {
+        if (! preg_match("/^[$chars]+$/", $input)) {
             throw new UnexpectedValueException('The number to convert contains invalid characters');
         }
 

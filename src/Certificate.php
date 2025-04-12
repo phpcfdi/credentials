@@ -16,19 +16,19 @@ class Certificate
     use LocalFileOpenTrait;
 
     /** @var string PEM contents including headers */
-    private $pem;
+    private string $pem;
 
     /** @var string RFC as parsed from subject/x500UniqueIdentifier */
-    private $rfc;
+    private string $rfc;
 
     /** @var string Legal name as parsed from subject/x500UniqueIdentifier */
-    private $legalName;
+    private string $legalName;
 
     /** @var SerialNumber|null Parsed serial number */
-    private $serialNumber;
+    private ?SerialNumber $serialNumber = null;
 
     /** @var PublicKey|null Parsed public key */
-    private $publicKey;
+    private ?PublicKey $publicKey = null;
 
     /**
      * Certificate constructor
@@ -59,7 +59,6 @@ class Certificate
      * Convert X.509 DER base64 or X.509 DER to X.509 PEM
      *
      * @param string $contents can be a certificate format X.509 DER or X.509 DER base64
-     * @return string
      */
     public static function convertDerToPem(string $contents): string
     {
@@ -77,7 +76,6 @@ class Certificate
      * The content file can be a certificate format X.509 PEM, X.509 DER or X.509 DER base64
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
-     * @return Certificate
      */
     public static function openFile(string $filename): self
     {
@@ -230,12 +228,12 @@ class Certificate
         return SatTypeEnum::csd();
     }
 
-    public function validOn(DateTimeImmutable $datetime = null): bool
+    public function validOn(?DateTimeImmutable $datetime = null): bool
     {
         if (null === $datetime) {
             $datetime = new DateTimeImmutable();
         }
-        return ($datetime >= $this->validFromDateTime() && $datetime <= $this->validToDateTime());
+        return $datetime >= $this->validFromDateTime() && $datetime <= $this->validToDateTime();
     }
 
     protected function createSerialNumber(string $hexadecimal, string $decimal): SerialNumber

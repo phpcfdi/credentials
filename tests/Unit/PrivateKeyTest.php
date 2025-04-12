@@ -102,7 +102,7 @@ class PrivateKeyTest extends TestCase
     }
 
     /** @return array<string, array{string, bool}> */
-    public function providerBelongsTo(): array
+    public static function providerBelongsTo(): array
     {
         return [
             'paired certificate' => ['FIEL_AAA010101AAA/certificate.cer', true],
@@ -122,7 +122,7 @@ class PrivateKeyTest extends TestCase
     }
 
     /** @return array<string, array{string, string}> */
-    public function providerChangePassPhrase(): array
+    public static function providerChangePassPhrase(): array
     {
         return [
             'clear password' => ['', 'PRIVATE KEY'],

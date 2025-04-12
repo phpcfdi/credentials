@@ -10,19 +10,16 @@ use PhpCfdi\Credentials\Internal\Key;
 use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 
-use const PHP_VERSION_ID;
-
 class PublicKey extends Key
 {
     use LocalFileOpenTrait;
 
     public function __construct(string $source)
     {
-        $dataArray = self::callOnPublicKeyWithContents(
-            function ($publicKey): array {
+        $dataArray = $this->callOnPublicKeyWithContents(
+            fn ($publicKey): array =>
                 // no need to verify that openssl_pkey_get_details returns false since it is already open
-                return openssl_pkey_get_details($publicKey) ?: [];
-            },
+                openssl_pkey_get_details($publicKey) ?: [],
             $source
         );
         parent::__construct($dataArray);
@@ -36,11 +33,7 @@ class PublicKey extends Key
     /**
      * Verify the signature of some data
      *
-     * @param string $data
-     * @param string $signature
-     * @param int $algorithm
      *
-     * @return bool
      *
      * @throws RuntimeException when openssl report an error on verify
      */
@@ -53,7 +46,7 @@ class PublicKey extends Key
                     /** @codeCoverageIgnore Don't know how make openssl_verify returns -1 */
                     throw new RuntimeException('Verify error: ' . openssl_error_string());
                 }
-                return (1 === $verify);
+                return 1 === $verify;
             }
         );
     }
@@ -61,11 +54,7 @@ class PublicKey extends Key
     /**
      * This method id created to wrap and mock openssl_verify
      *
-     * @param string $data
-     * @param string $signature
      * @param OpenSSLAsymmetricKey $publicKey
-     * @param int $algorithm
-     * @return int
      */
     protected function openSslVerify(string $data, string $signature, $publicKey, int $algorithm): int
     {
@@ -91,25 +80,16 @@ class PublicKey extends Key
     /**
      * @template T
      * @param Closure(OpenSSLAsymmetricKey): T $function
-     * @param string $publicKeyContents
      * @return T
      * @throws RuntimeException when Cannot open public key
      */
-    private static function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
+    private function callOnPublicKeyWithContents(Closure $function, string $publicKeyContents)
     {
         /** @var false|OpenSSLAsymmetricKey $pubKey */
         $pubKey = openssl_get_publickey($publicKeyContents);
         if (false === $pubKey) {
             throw new RuntimeException('Cannot open public key: ' . openssl_error_string());
         }
-        try {
-            return $function($pubKey);
-        } finally {
-            if (PHP_VERSION_ID < 80000) {
-                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
-                openssl_free_key($pubKey);
-                // phpcs:enable
-            }
-        }
+        return $function($pubKey);
     }
 }

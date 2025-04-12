@@ -183,7 +183,7 @@ $pfxReader = new PfxReader();
 $credential = $pfxReader->createCredentialFromContents('contenido-del-archivo', 'pfx-passphrase');
 
 // crea un objeto Credential dada la ruta local de un archivo pfx
-$credential = $pfxReader->createCredentialsFromFile('pfxFilePath', 'pfx-passphrase');
+$credential = $pfxReader->createCredentialFromFile('pfxFilePath', 'pfx-passphrase');
 ```
 
 ## Compatibilidad

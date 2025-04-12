@@ -19,7 +19,7 @@ class PemExtractorTest extends TestCase
     }
 
     /** @return array<string, array<string>> */
-    public function providerCrLfAndLf(): array
+    public static function providerCrLfAndLf(): array
     {
         return [
             'CRLF' => ["\r\n"],
@@ -28,7 +28,6 @@ class PemExtractorTest extends TestCase
     }
 
     /**
-     * @param string $eol
      * @dataProvider providerCrLfAndLf
      */
     public function testExtractorWithFakeContent(string $eol): void

@@ -10,8 +10,6 @@ use PhpCfdi\Credentials\Tests\TestCase;
 class Rfc4514Test extends TestCase
 {
     /**
-     * @param string $subject
-     * @param string $expected
      * @dataProvider providerEscape
      */
     public function testEscape(string $subject, string $expected): void
@@ -40,7 +38,7 @@ class Rfc4514Test extends TestCase
     }
 
     /** @return array<string, array<string>> */
-    public function providerEscape(): array
+    public static function providerEscape(): array
     {
         return [
             'normal' => ['foo bar', 'foo bar'],

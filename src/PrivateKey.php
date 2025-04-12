@@ -11,20 +11,17 @@ use PhpCfdi\Credentials\Internal\LocalFileOpenTrait;
 use RuntimeException;
 use UnexpectedValueException;
 
-use const PHP_VERSION_ID;
-
 class PrivateKey extends Key
 {
     use LocalFileOpenTrait;
 
     /** @var string PEM contents of private key */
-    private $pem;
+    private string $pem;
 
-    /** @var string */
-    private $passPhrase;
+    private string $passPhrase;
 
     /** @var PublicKey|null public key extracted from private key */
-    private $publicKey;
+    private ?PublicKey $publicKey = null;
 
     /**
      * PrivateKey constructor
@@ -47,10 +44,9 @@ class PrivateKey extends Key
         $this->pem = $pem;
         $this->passPhrase = $passPhrase;
         $dataArray = $this->callOnPrivateKey(
-            function ($privateKey): array {
+            fn ($privateKey): array =>
                 // no need to verify that openssl_pkey_get_details returns false since it is already open
-                return openssl_pkey_get_details($privateKey) ?: [];
-            }
+                openssl_pkey_get_details($privateKey) ?: []
         );
         parent::__construct($dataArray);
     }
@@ -59,8 +55,6 @@ class PrivateKey extends Key
      * Convert PKCS#8 DER to PKCS#8 PEM
      *
      * @param string $contents can be a PKCS#8 DER
-     * @param bool $isEncrypted
-     * @return string
      */
     public static function convertDerToPem(string $contents, bool $isEncrypted): string
     {
@@ -75,8 +69,6 @@ class PrivateKey extends Key
      * The content file can be a PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
      *
      * @param string $filename must be a local file (without scheme or file:// scheme)
-     * @param string $passPhrase
-     * @return self
      */
     public static function openFile(string $filename, string $passPhrase): self
     {
@@ -120,16 +112,12 @@ class PrivateKey extends Key
     /**
      * This method id created to wrap and mock openssl_sign
      *
-     * @param string $data
-     * @param string|null $signature
      * @param OpenSSLAsymmetricKey $privateKey
-     * @param int $algorithm
-     * @return bool
      * @internal
      */
     protected function openSslSign(string $data, ?string &$signature, $privateKey, int $algorithm): bool
     {
-        return openssl_sign($data, $signature, $privateKey, $algorithm);
+        return openssl_sign($data, $signature, $privateKey, $algorithm); // @phpstan-ignore parameterByRef.type
     }
 
     public function belongsTo(Certificate $certificate): bool
@@ -140,9 +128,7 @@ class PrivateKey extends Key
     public function belongsToPEMCertificate(string $certificate): bool
     {
         return $this->callOnPrivateKey(
-            function ($privateKey) use ($certificate): bool {
-                return openssl_x509_check_private_key($certificate, $privateKey);
-            }
+            fn ($privateKey): bool => openssl_x509_check_private_key($certificate, $privateKey)
         );
     }
 
@@ -159,22 +145,13 @@ class PrivateKey extends Key
         if (false === $privateKey) {
             throw new RuntimeException('Cannot open private key: ' . openssl_error_string());
         }
-        try {
-            return $function($privateKey);
-        } finally {
-            if (PHP_VERSION_ID < 80000) {
-                // phpcs:disable Generic.PHP.DeprecatedFunctions.Deprecated
-                openssl_free_key($privateKey);
-                // phpcs:enable
-            }
-        }
+        return $function($privateKey);
     }
 
     /**
      * Export the current private key to a new private key with a different password
      *
      * @param string $newPassPhrase If empty the new private key will be unencrypted
-     * @return self
      */
     public function changePassPhrase(string $newPassPhrase): self
     {
@@ -184,11 +161,14 @@ class PrivateKey extends Key
                     'private_key_bits' => $this->publicKey()->numberOfBits(),
                     'encrypt_key' => ('' !== $newPassPhrase), // if empty then set that the key is not encrypted
                 ];
+                // @codeCoverageIgnoreStart
                 if (! openssl_pkey_export($privateKey, $exported, $newPassPhrase, $exportConfig)) {
-                    // @codeCoverageIgnoreStart
                     throw new RuntimeException('Cannot export the private KEY to change password');
-                    // @codeCoverageIgnoreEnd
                 }
+                if (! is_string($exported) || '' === $exported) {
+                    throw new RuntimeException('Exported KEY has not a valid content');
+                }
+                // @codeCoverageIgnoreEnd
                 return $exported;
             }
         );

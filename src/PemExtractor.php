@@ -6,12 +6,8 @@ namespace PhpCfdi\Credentials;
 
 class PemExtractor
 {
-    /** @var string */
-    private $contents;
-
-    public function __construct(string $contents)
+    public function __construct(private readonly string $contents)
     {
-        $this->contents = $contents;
     }
 
     public function getContents(): string
@@ -80,8 +76,6 @@ class PemExtractor
      * This won't alter CR that are not at EOL.
      * This won't alter LF+CR used in old Mac style
      *
-     * @param string $content
-     * @return string
      * @internal
      */
     protected function normalizeLineEndings(string $content): string

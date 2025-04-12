@@ -5,14 +5,14 @@
     bootstrap="tests/bootstrap.php"
     colors="true"
     >
-    <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+  <source>
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
+  <testsuites>
+    <testsuite name="default">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
