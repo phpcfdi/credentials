@@ -11,6 +11,12 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 1.3.0 2025-04-12
+
+- Se mejoran las declaraciones de tipos.
+- Se elimina la compatiblidad con PHP 7.3, PHP 7.4 y PHP 8.0.
+- Se actualiza la acción de GitHub a `Update to SonarSource/sonarqube-scan-action@v5`.
+
 ### Versión 1.2.3 2025-03-30
 
 Se corrigieron los problemas asociados a la compatibilidad de PHP 8.4.
