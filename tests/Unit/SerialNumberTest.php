@@ -83,7 +83,7 @@ class SerialNumberTest extends TestCase
         string $hexadecimalInput,
         string $expectedDecimal,
         string $expectedBytes,
-        bool $expectedBytesArePrintable
+        bool $expectedBytesArePrintable,
     ): void {
         $serial = SerialNumber::createFromHexadecimal($hexadecimalInput);
         $this->assertSame($expectedDecimal, $serial->decimal());

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace PhpCfdi\Credentials\Internal;
 
+use Stringable;
 use UnexpectedValueException;
 
 /** @internal  */
-class BaseConverterSequence implements \Stringable
+class BaseConverterSequence implements Stringable
 {
     private readonly string $sequence;
 

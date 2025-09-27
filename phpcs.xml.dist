@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="EngineWorks">
-    <description>The EngineWorks (PSR-2 based) coding standard.</description>
+    <description>The EngineWorks (PSR-12 based) coding standard.</description>
 
     <file>src</file>
     <file>tests</file>
@@ -18,7 +18,6 @@
     <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
     <rule ref="Generic.Formatting.SpaceAfterNot"/>
-    <rule ref="Generic.Functions.CallTimePassByReference"/>
     <rule ref="Generic.NamingConventions.ConstructorName"/>
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
     <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
