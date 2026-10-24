@@ -31,7 +31,7 @@ trait LocalFileOpenTrait
         }
 
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        $contents = @file_get_contents($path, false) ?: '';
+        $contents = @file_get_contents($path) ?: '';
         if ('' === $contents) {
             throw new RuntimeException('File content is empty');
         }
