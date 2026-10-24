@@ -31,7 +31,7 @@ jobs:
         run: composer-normalize --dry-run
 
   phpcs:
-    name: Code style (phpcs)
+    name: Coding standards (phpcs)
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -48,7 +48,7 @@ jobs:
         run: phpcs -q --report=checkstyle | cs2pr
 
   php-cs-fixer:
-    name: Code style (php-cs-fixer)
+    name: Coding standards (php-cs-fixer)
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -92,7 +92,7 @@ jobs:
       - name: PHPStan
         run: phpstan analyse --no-progress --verbose
 
-  tests:
+  phpunit:
     name: Tests on PHP ${{ matrix.php-version }}
     runs-on: "ubuntu-latest"
     strategy:
