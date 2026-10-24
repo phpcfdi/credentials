@@ -26,7 +26,7 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "eclipxe/enum": "^0.2.7"
+        "eclipxe/enum": "^0.2.8"
     },
     "require-dev": {
         "ext-json": "*",
@@ -66,7 +66,7 @@
         "dev:fix-style": [
             "@php tools/composer-normalize normalize",
             "@php tools/php-cs-fixer fix --verbose",
-            "@php tools/phpcbf --colors -sp"
+            "@php tools/phpcbf --colors -sp || true"
         ],
         "dev:test": [
             "@php vendor/bin/phpunit --testdox --stop-on-failure",

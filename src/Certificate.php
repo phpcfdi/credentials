@@ -45,7 +45,8 @@ class Certificate
             $pem = static::convertDerToPem($contents);
         }
 
-        $parsed = openssl_x509_parse($pem, true);
+        /** @noinspection PhpRedundantOptionalArgumentInspection */
+        $parsed = openssl_x509_parse($pem, short_names: true);
         if (false === $parsed) {
             throw new UnexpectedValueException('Cannot parse X509 certificate from contents');
         }
@@ -89,7 +90,9 @@ class Certificate
 
     public function pemAsOneLine(): string
     {
-        return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())) ?: []);
+        /** @phpstan-var string[]|false $lines */
+        $lines = preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem()));
+        return implode('', $lines ?: []);
     }
 
     /**
@@ -128,7 +131,7 @@ class Certificate
 
     public function subjectData(string $key): string
     {
-        return strval($this->subject()[$key] ?? '');
+        return $this->subject()[$key] ?? '';
     }
 
     public function hash(): string
@@ -144,7 +147,7 @@ class Certificate
 
     public function issuerData(string $string): string
     {
-        return strval($this->issuer()[$string] ?? '');
+        return $this->issuer()[$string] ?? '';
     }
 
     public function version(): string

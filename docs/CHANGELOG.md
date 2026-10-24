@@ -9,14 +9,35 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
-### Mantenimiento 2025-09-25
+## Listado de cambios
+
+### Versión 1.3.1 2026-10-23
+
+- Se actualiza el año de la licencia a 2026.
+- Se actualizó la dependencia `eclipxe/enum` a 0.2.8.
+- Se garantiza la compatibilidad con PHP 8.5.
+- Se excluye el directorio `.phive` del paquete Git.
+- Se usa el tipo `OpenSSLAsymmetricKey` disponible desde PHP 8.0.
+- Se solucionan pequeñas incidencias reportadas por la inspección de PHPStorm.
+
+En el entorno de desarrollo:
+
+- Se actualiza el código para corregir un falso positivo de PHPStan.
+- Se actualizan las reglas deprecadas de `php-cs-fixer`.
+- En los flujos de trabajo de GitHub:
+  - Se corrige el trabajo `composer-normalize` para que falle cuando es necesario.
+  - Se actualizan las versiones de las acciones.
+  - Se agrega PHP 8.5 a la matriz de pruebas.
+  - Se ejecutan los trabajos en PHP 8.5.
+  - Se renombra el trabajo `tests` a `phpunit`.
+- Se actualizan las herramientas de desarrollo.
+
+#### Mantenimiento 2025-09-25
 
 - Se actualizan las herramientas `phpcs` y `phpcbf` a la versión 4.0.0.
 - Se elimina la regla `Generic.Functions.CallTimePassByReference`.
 - Se moderniza la integración con SonarQube-Cloud.
 - Se actualiza `sonarqube-scan-action` a la versión 6.
-
-## Listado de cambios
 
 ### Versión 1.3.0 2025-04-12
 

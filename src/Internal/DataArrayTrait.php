@@ -10,19 +10,16 @@ use DateTimeImmutable;
 trait DataArrayTrait
 {
     /** @var array<mixed> content of openssl_x509_parse or openssl_pkey_get_details */
-    protected $dataArray;
+    protected array $dataArray;
 
     /**
-     * @param string|int|float|bool $default
-     * @return string|int|float|bool
+     * @param scalar $default
+     * @return scalar
      */
     protected function extractScalar(string $key, $default)
     {
         $value = $this->dataArray[$key] ?? $default;
-        if (is_scalar($value)) {
-            return $value;
-        }
-        return $default;
+        return is_scalar($value) ? $value : $default;
     }
 
     protected function extractString(string $key): string
