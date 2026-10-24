@@ -89,7 +89,9 @@ class Certificate
 
     public function pemAsOneLine(): string
     {
-        return implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem())) ?: []);
+        /** @phpstan-var string[]|false $lines */
+        $lines = preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $this->pem()));
+        return implode('', $lines ?: []);
     }
 
     /**
