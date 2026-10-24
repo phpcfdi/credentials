@@ -131,7 +131,7 @@ class Certificate
 
     public function subjectData(string $key): string
     {
-        return strval($this->subject()[$key] ?? '');
+        return $this->subject()[$key] ?? '';
     }
 
     public function hash(): string
@@ -147,7 +147,7 @@ class Certificate
 
     public function issuerData(string $string): string
     {
-        return strval($this->issuer()[$string] ?? '');
+        return $this->issuer()[$string] ?? '';
     }
 
     public function version(): string
