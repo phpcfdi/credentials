@@ -33,8 +33,6 @@ class PublicKey extends Key
     /**
      * Verify the signature of some data
      *
-     *
-     *
      * @throws RuntimeException when openssl report an error on verify
      */
     public function verify(string $data, string $signature, int $algorithm = OPENSSL_ALGO_SHA256): bool
@@ -52,12 +50,15 @@ class PublicKey extends Key
     }
 
     /**
-     * This method id created to wrap and mock openssl_verify
-     *
-     * @param OpenSSLAsymmetricKey $publicKey
+     * This method is created to wrap and mock openssl_verify
+     * @internal
      */
-    protected function openSslVerify(string $data, string $signature, $publicKey, int $algorithm): int
-    {
+    protected function openSslVerify(
+        string $data,
+        string $signature,
+        OpenSSLAsymmetricKey $publicKey,
+        int $algorithm,
+    ): int {
         $verify = openssl_verify($data, $signature, $publicKey, $algorithm);
         if (false === $verify) {
             return -1; // @codeCoverageIgnore

@@ -111,12 +111,14 @@ class PrivateKey extends Key
 
     /**
      * This method id created to wrap and mock openssl_sign
-     *
-     * @param OpenSSLAsymmetricKey $privateKey
      * @internal
      */
-    protected function openSslSign(string $data, ?string &$signature, $privateKey, int $algorithm): bool
-    {
+    protected function openSslSign(
+        string $data,
+        string|null &$signature,
+        OpenSSLAsymmetricKey $privateKey,
+        int $algorithm,
+    ): bool {
         return openssl_sign($data, $signature, $privateKey, $algorithm); // @phpstan-ignore parameterByRef.type
     }
 
