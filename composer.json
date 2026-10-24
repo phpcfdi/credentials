@@ -66,7 +66,7 @@
         "dev:fix-style": [
             "@php tools/composer-normalize normalize",
             "@php tools/php-cs-fixer fix --verbose",
-            "@php tools/phpcbf --colors -sp"
+            "@php tools/phpcbf --colors -sp || true"
         ],
         "dev:test": [
             "@php vendor/bin/phpunit --testdox --stop-on-failure",
