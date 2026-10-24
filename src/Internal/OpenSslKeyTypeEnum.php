@@ -27,6 +27,7 @@ final class OpenSslKeyTypeEnum extends Enum
      *
      * @return array<string, int>
      * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection PhpUnused
      */
     protected static function overrideIndices(): array
     {
